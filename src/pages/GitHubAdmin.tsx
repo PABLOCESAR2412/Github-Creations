@@ -84,7 +84,7 @@ export const GitHubAdmin: React.FC = () => {
           </div>
           
           <div className="text-right">
-            <div className="text-2xl font-black tracking-tight text-white">
+            <div className="text-2xl font-black tracking-tight text-black dark:text-black dark:text-white">
               {formatNumber(info.remaining)} <span className="text-sm font-medium text-slate-500">/ {formatNumber(info.limit)}</span>
             </div>
             <p className={`text-xs font-semibold ${isLow ? 'text-red-400' : 'text-emerald-400'}`}>
@@ -120,7 +120,7 @@ export const GitHubAdmin: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-white flex items-center gap-3">
+          <h1 className="text-2xl font-black text-black dark:text-black dark:text-white flex items-center gap-3">
             <Server className="w-7 h-7 text-cyan-400" />
             GitHub API Rate Limits
           </h1>
@@ -163,7 +163,7 @@ export const GitHubAdmin: React.FC = () => {
 
       {/* Info Section */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-sm text-slate-300">
-        <h3 className="font-bold text-white mb-2 flex items-center gap-2">
+        <h3 className="font-bold text-black dark:text-black dark:text-white mb-2 flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 text-amber-400" />
           Why does this matter?
         </h3>

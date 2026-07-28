@@ -6,7 +6,7 @@
   }
   
   html, body {
-    @apply bg-black text-white antialiased font-mono;
+    @apply bg-[#f5f4ef] text-black dark:bg-black dark:text-white antialiased font-mono;
     overflow-x: hidden;
   }
 
@@ -63,5 +63,4 @@
 }
 .brutal-shadow:hover {
   box-shadow: 4px 4px 0px 0px rgba(0, 255, 255, 0.8);
-  transform: translate(-2px, -2px);
 }

@@ -12,8 +12,14 @@ interface EditorState {
   markdownOutput: string;
   loading: boolean;
   error: string | null;
+  
+  // App Settings
+  language: 'en' | 'es';
+  theme: 'dark' | 'light';
 
   // Actions
+  setLanguage: (lang: 'en' | 'es') => void;
+  setTheme: (theme: 'dark' | 'light') => void;
   setUsername: (username: string) => void;
   setToken: (token: string) => void;
   setStatsAndRepos: (stats: GitHubStats | null, repos: RepositoryStats[], languages?: LanguageStat[]) => void;
@@ -50,6 +56,18 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   markdownOutput: '',
   loading: false,
   error: null,
+  language: 'en',
+  theme: 'dark',
+
+  setLanguage: (language) => set({ language }),
+  setTheme: (theme) => {
+    set({ theme });
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  },
 
   setUsername: (username) => set({ username }),
   setToken: (token) => set({ token }),

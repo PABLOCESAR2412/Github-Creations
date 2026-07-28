@@ -7,12 +7,33 @@ import { DynamicStatsConfigurator } from '../components/DynamicStatsConfigurator
 import { VercelApiExporter } from '../components/VercelApiExporter';
 import { GithubActionExporter } from '../components/GithubActionExporter';
 import { useMarkdownGenerator } from '../hooks/useMarkdownGenerator';
+import { useEditorStore } from '../store/editorStore';
+import { Moon, Sun, Globe } from 'lucide-react';
 
 export const Home: React.FC = () => {
   useMarkdownGenerator();
+  const { theme, setTheme, language, setLanguage } = useEditorStore();
 
   return (
     <main className="flex-1 p-6 grid grid-cols-12 gap-6 max-w-[1700px] mx-auto w-full">
+      {/* Top Bar for Settings */}
+      <div className="col-span-12 flex justify-end gap-4 mb-2">
+        <button
+          onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
+          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] hover:border-[#00ffff] transition-colors"
+        >
+          <Globe className="w-4 h-4" />
+          {language === 'en' ? 'ES' : 'EN'}
+        </button>
+        <button
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] hover:border-[#00ffff] transition-colors"
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? (language === 'es' ? 'CLARO' : 'LIGHT') : (language === 'es' ? 'OSCURO' : 'DARK')}
+        </button>
+      </div>
+
       {/* Left Control Column */}
       <div className="col-span-12 lg:col-span-5 space-y-6 flex flex-col">
         <StatsInput />

@@ -94,25 +94,25 @@ export const ComponentBuilder: React.FC = () => {
   ] as const;
 
   return (
-    <div className="bg-black border border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] font-mono">
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] font-mono">
+      <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 pb-3">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-[#00ffff] text-black">
             <Layout className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white uppercase tracking-widest">[ COMPONENT_BUILDER ]</h2>
-            <p className="text-[10px] text-zinc-500 uppercase">Construct your profile</p>
+            <h2 className="text-sm font-bold text-black dark:text-black dark:text-white uppercase tracking-widest">[ COMPONENT_BUILDER ]</h2>
+            <p className="text-[10px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 uppercase">Construct your profile</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-black p-1 border border-zinc-800 text-[10px]">
-          <span className="uppercase font-bold text-zinc-500 px-2">Presets:</span>
+        <div className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-1 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 text-[10px]">
+          <span className="uppercase font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 px-2">Presets:</span>
           {(['full', 'minimal', 'cards'] as const).map((p) => (
             <button
               key={p}
               onClick={() => setPreset(p)}
-              className="px-2 py-0.5 uppercase hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all font-bold border border-transparent hover:border-zinc-700"
+              className="px-2 py-0.5 uppercase hover:bg-zinc-800 text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 hover:text-black dark:text-black dark:text-white transition-all font-bold border border-transparent hover:border-zinc-300 dark:border-zinc-300 dark:border-zinc-700"
             >
               {p}
             </button>
@@ -122,13 +122,13 @@ export const ComponentBuilder: React.FC = () => {
 
       <div className="mt-5 space-y-5">
         <div>
-          <h3 className="text-[10px] font-bold text-zinc-400 mb-2 uppercase tracking-widest">&gt; ADD_COMPONENT</h3>
+          <h3 className="text-[10px] font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2 uppercase tracking-widest">&gt; ADD_COMPONENT</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {componentTypes.map((type) => (
               <button
                 key={type.id}
                 onClick={() => handleAdd(type.id as MarkdownComponent['type'])}
-                className="flex flex-col items-center gap-1.5 p-2 bg-black border border-zinc-800 hover:border-[#00ffff] hover:text-[#00ffff] text-zinc-400 transition-colors uppercase"
+                className="flex flex-col items-center gap-1.5 p-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 hover:border-[#00ffff] hover:text-[#00ffff] text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 transition-colors uppercase"
               >
                 {type.icon}
                 <span className="text-[10px] font-bold">{type.label}</span>
@@ -138,9 +138,9 @@ export const ComponentBuilder: React.FC = () => {
         </div>
 
         <div>
-          <h3 className="text-[10px] font-bold text-zinc-400 mb-2 flex items-center justify-between uppercase tracking-widest">
+          <h3 className="text-[10px] font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2 flex items-center justify-between uppercase tracking-widest">
             <span>&gt; ACTIVE_COMPONENTS</span>
-            <span className="bg-zinc-900 text-[#00ffff] px-1.5 py-0.5 font-bold">
+            <span className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 text-[#00ffff] px-1.5 py-0.5 font-bold">
               {components.length}
             </span>
           </h3>
@@ -153,11 +153,11 @@ export const ComponentBuilder: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="group relative bg-black border border-zinc-800 p-3 space-y-3"
+                  className="group relative bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-3 space-y-3"
                 >
-                  <div className="flex items-center justify-between mb-3 border-b border-zinc-800 pb-2">
+                  <div className="flex items-center justify-between mb-3 border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 pb-2">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#00ffff] flex items-center gap-2">
-                      <span className="w-4 h-4 bg-zinc-900 border border-[#00ffff] text-[#00ffff] flex items-center justify-center font-mono">
+                      <span className="w-4 h-4 bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 border border-[#00ffff] text-[#00ffff] flex items-center justify-center font-mono">
                         {idx + 1}
                       </span>
                       [{comp.type}]
@@ -167,7 +167,7 @@ export const ComponentBuilder: React.FC = () => {
                       <button
                         onClick={() => idx > 0 && reorderComponents(idx, idx - 1)}
                         disabled={idx === 0}
-                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-zinc-950 border border-zinc-800"
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800"
                         title="Move Up"
                       >
                         <ChevronUp className="w-3 h-3" />
@@ -175,14 +175,14 @@ export const ComponentBuilder: React.FC = () => {
                       <button
                         onClick={() => idx < components.length - 1 && reorderComponents(idx, idx + 1)}
                         disabled={idx === components.length - 1}
-                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-zinc-950 border border-zinc-800"
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800"
                         title="Move Down"
                       >
                         <ChevronDown className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => removeComponent(idx)}
-                        className="p-1 text-zinc-600 hover:text-red-500 transition-colors bg-zinc-950 border border-zinc-800"
+                        className="p-1 text-zinc-600 hover:text-red-500 transition-colors bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800"
                         title="Delete"
                       >
                         <Trash2 className="w-3 h-3" />
@@ -209,15 +209,15 @@ export const ComponentBuilder: React.FC = () => {
                 )}
 
                 {(comp.type === 'stats' || comp.type === 'languages' || comp.type === 'streak' || comp.type === 'activity_graph') && (
-                  <div className="flex items-center gap-4 bg-zinc-950 p-2 border border-zinc-800 text-xs">
+                  <div className="flex items-center gap-4 bg-white dark:bg-white dark:bg-zinc-950 p-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 text-xs">
                     <div className="flex items-center gap-2">
                       <Palette className="w-4 h-4 text-[#00ffff]" />
-                      <span className="text-zinc-400 uppercase tracking-widest text-[10px]">[ CARD_THEME ]</span>
+                      <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase tracking-widest text-[10px]">[ CARD_THEME ]</span>
                     </div>
                     <select
                       value={comp.theme || (comp.type === 'streak' ? 'soft-green' : comp.type === 'activity_graph' ? 'github-compact' : comp.type === 'languages' ? 'codeSTACKr' : 'github_dark')}
                       onChange={(e) => updateComponent(idx, { theme: e.target.value as any })}
-                      className="bg-black border border-zinc-800 text-white px-2 py-1 focus:outline-none focus:border-[#00ffff] uppercase"
+                      className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 text-black dark:text-black dark:text-white px-2 py-1 focus:outline-none focus:border-[#00ffff] uppercase"
                     >
                       {THEMES.map((t) => (
                         <option key={t.id} value={t.id}>

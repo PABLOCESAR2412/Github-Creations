@@ -7,7 +7,7 @@ import { Eye, Code, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const MarkdownPreview: React.FC = () => {
-  const { markdownOutput, stats, repos } = useEditorStore();
+  const { markdownOutput, stats, repos, language } = useEditorStore();
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [copied, setCopied] = useState(false);
 
@@ -21,33 +21,37 @@ export const MarkdownPreview: React.FC = () => {
   };
 
   return (
-    <div className="bg-black border border-zinc-800 p-5 shadow-2xl brutal-shadow font-mono flex flex-col h-full min-h-[600px] space-y-4">
+    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-5 shadow-2xl brutal-shadow font-mono flex flex-col h-full min-h-[600px] space-y-4">
       {/* Header Tabs */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+      <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-black border border-white text-white">
+          <div className="p-2 bg-black border border-white text-white dark:bg-black dark:border-white dark:text-white bg-[#f5f4ef]">
             <Eye className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white uppercase tracking-widest">[ LIVE_PREVIEW ]</h2>
-            <p className="text-[10px] text-zinc-500 uppercase">Real-time README output</p>
+            <h2 className="text-sm font-bold text-black dark:text-white uppercase tracking-widest">
+              {language === 'es' ? '[ VISTA_PREVIA ]' : '[ LIVE_PREVIEW ]'}
+            </h2>
+            <p className="text-[10px] text-zinc-600 dark:text-zinc-500 uppercase">
+              {language === 'es' ? 'Salida visual en tiempo real' : 'Real-time README output'}
+            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center bg-black p-1 border border-zinc-800 text-[10px]">
+          <div className="flex items-center bg-[#f5f4ef] dark:bg-black p-1 border border-zinc-300 dark:border-zinc-800 text-[10px]">
             <button
               onClick={() => setActiveTab('preview')}
               className={`flex items-center gap-1.5 px-3 py-1 font-bold uppercase transition-all ${
-                activeTab === 'preview' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-500 hover:text-white border border-transparent'
+                activeTab === 'preview' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
               }`}
             >
-              <Eye className="w-3.5 h-3.5" /> PREVIEW
+              <Eye className="w-3.5 h-3.5" /> {language === 'es' ? 'PREVIA' : 'PREVIEW'}
             </button>
             <button
               onClick={() => setActiveTab('code')}
               className={`flex items-center gap-1.5 px-3 py-1 font-bold uppercase transition-all ${
-                activeTab === 'code' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-500 hover:text-white border border-transparent'
+                activeTab === 'code' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
               }`}
             >
               <Code className="w-3.5 h-3.5" /> RAW_MD
@@ -56,10 +60,10 @@ export const MarkdownPreview: React.FC = () => {
 
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 bg-black hover:bg-zinc-900 text-white px-3 py-2 border border-zinc-700 hover:border-[#00ffff] text-xs font-bold uppercase transition-colors"
+            className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-2 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] text-xs font-bold uppercase transition-colors"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-[#00ffff]" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? '[ COPIED ]' : '[ COPY ]'}</span>
+            <span>{copied ? (language === 'es' ? '[ COPIADO ]' : '[ COPIED ]') : (language === 'es' ? '[ COPIAR ]' : '[ COPY ]')}</span>
           </button>
         </div>
       </div>
@@ -99,7 +103,7 @@ export const MarkdownPreview: React.FC = () => {
       )}
 
       {/* Content Area */}
-      <div className="flex-1 bg-black border border-zinc-800 p-5 overflow-y-auto max-h-[500px] relative">
+      <div className="flex-1 bg-white dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 overflow-y-auto relative min-h-[400px]">
         <AnimatePresence mode="wait">
           {activeTab === 'preview' ? (
             <motion.div
@@ -108,7 +112,6 @@ export const MarkdownPreview: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="markdown-body"
-              style={{ backgroundColor: 'transparent', color: '#ffffff' }}
             >
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {markdownOutput}
@@ -125,7 +128,7 @@ export const MarkdownPreview: React.FC = () => {
               <textarea
                 readOnly
                 value={markdownOutput}
-                className="w-full h-full min-h-[400px] font-mono text-[11px] text-[#00ffff] bg-black p-4 overflow-x-auto whitespace-pre-wrap leading-relaxed outline-none resize-none border-none focus:ring-1 focus:ring-[#00ffff]"
+                className="w-full h-full font-mono text-[11px] text-[#00ffff] bg-white dark:bg-black p-4 overflow-x-auto whitespace-pre-wrap leading-relaxed outline-none resize-none border-none focus:ring-1 focus:ring-[#00ffff]"
               />
             </motion.div>
           )}
