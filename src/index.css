@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --electric: #00ffff;
+  }
+  
+  html, body {
+    @apply bg-black text-white antialiased font-mono;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--electric);
+    color: black;
+  }
+  
+  /* Brutalist Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: black;
+    border-left: 1px solid #333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--electric);
+  }
+}
+
+.markdown-body {
+  background-color: transparent !important;
+  color: #fff !important;
+  font-family: monospace !important;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  border-bottom-color: #333 !important;
+  text-transform: uppercase;
+}
+
+.markdown-body img {
+  border-radius: 0 !important;
+}
+
+/* Brutalist specific utilities */
+.brutal-border {
+  border: 1px solid #333;
+}
+.brutal-border:hover {
+  border-color: var(--electric);
+}
+.brutal-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0, 255, 255, 0.2);
+}
+.brutal-shadow:hover {
+  box-shadow: 4px 4px 0px 0px rgba(0, 255, 255, 0.8);
+  transform: translate(-2px, -2px);
+}
