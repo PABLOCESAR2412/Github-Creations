@@ -9,7 +9,7 @@ import {
   Trash2,
   ChevronUp,
   ChevronDown,
-  Layers,
+  Layout,
   BarChart2,
   Code2,
   Shield,
@@ -29,12 +29,7 @@ const THEMES = [
   { id: 'gruvbox', name: 'Gruvbox' },
 ];
 
-const BADGE_STYLES = [
-  { id: 'for-the-badge', name: 'For The Badge' },
-  { id: 'flat-square', name: 'Flat Square' },
-  { id: 'flat', name: 'Flat Standard' },
-  { id: 'plastic', name: 'Plastic' },
-];
+
 
 export const ComponentBuilder: React.FC = () => {
   const { components, addComponent, removeComponent, updateComponent, reorderComponents, setPreset } =
@@ -167,10 +162,42 @@ export const ComponentBuilder: React.FC = () => {
                       </span>
                       [{comp.type}]
                     </span>
-                    align={comp.align}
-                    onAlignChange={(align) => updateComponent(idx, { align })}
-                  />
-                )}
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => idx > 0 && reorderComponents(idx, idx - 1)}
+                        disabled={idx === 0}
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-zinc-950 border border-zinc-800"
+                        title="Move Up"
+                      >
+                        <ChevronUp className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => idx < components.length - 1 && reorderComponents(idx, idx + 1)}
+                        disabled={idx === components.length - 1}
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-zinc-950 border border-zinc-800"
+                        title="Move Down"
+                      >
+                        <ChevronDown className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => removeComponent(idx)}
+                        className="p-1 text-zinc-600 hover:text-red-500 transition-colors bg-zinc-950 border border-zinc-800"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {comp.type === 'title' && (
+                    <Title
+                      content={comp.content}
+                      onChange={(val) => updateComponent(idx, { content: val })}
+                      align={comp.align}
+                      onAlignChange={(align) => updateComponent(idx, { align })}
+                    />
+                  )}
 
                 {comp.type === 'subtitle' && (
                   <Subtitle
@@ -281,6 +308,7 @@ export const ComponentBuilder: React.FC = () => {
               </motion.div>
             ))}
           </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

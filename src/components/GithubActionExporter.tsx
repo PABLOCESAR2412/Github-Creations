@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Triangle, Copy, Check, Terminal, PlaySquare } from 'lucide-react';
+import { Copy, Check, Terminal, PlaySquare } from 'lucide-react';
 import { useEditorStore } from '../store/editorStore';
 
 export const GithubActionExporter: React.FC = () => {

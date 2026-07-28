@@ -8,6 +8,7 @@ export interface GitHubStats {
   following: number;
   public_gists: number;
   created_at: string;
+  twitter_username?: string;
   company?: string;
   location?: string;
 }
@@ -38,6 +39,7 @@ export interface MarkdownComponent {
   height?: number; // for spacer
   theme?: 'default' | 'dark' | 'tokyonight' | 'radical' | 'mer节' | 'dracula' | 'github_dark' | 'gruvbox' | 'codeSTACKr' | 'github-compact' | 'soft-green';
   badgeStyle?: 'flat' | 'flat-square' | 'for-the-badge' | 'plastic';
+  customUrl?: string;
   labelColor?: string;
   valueColor?: string;
   logoColor?: string;

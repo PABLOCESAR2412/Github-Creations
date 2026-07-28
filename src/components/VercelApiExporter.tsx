@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useEditorStore } from '../store/editorStore';
-import { Server, Copy, Check, Terminal, ExternalLink, Triangle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Copy, Check, Terminal, Triangle } from 'lucide-react';
 
 export const VercelApiExporter: React.FC = () => {
   const { username } = useEditorStore();

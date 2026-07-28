@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useEditorStore } from '../store/editorStore';
 import { Settings2, Plus, Sparkles, LayoutGrid, List } from 'lucide-react';
 import { MarkdownComponent } from '../types/github';
