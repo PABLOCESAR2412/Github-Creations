@@ -92,36 +92,36 @@ updateStats();
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl relative overflow-hidden brutal-shadow font-mono mt-6">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl relative overflow-hidden brutal-shadow font-mono mt-6">
       <div className="flex flex-col md:flex-row gap-8 relative z-10">
         
         {/* Left Side: Instructions */}
         <div className="flex-1 space-y-6">
-          <div className="border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 pb-4">
-            <h2 className="text-xl font-black text-black dark:text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
+          <div className="border-b border-zinc-300 dark:border-zinc-800 pb-4">
+            <h2 className="text-xl font-black text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
               <PlaySquare className="w-6 h-6 text-[#00ffff]" />
               {language === 'es' ? '[ AUTOMATIZACION_GITHUB_ACTIONS ]' : '[ GITHUB_ACTIONS_AUTOMATION ]'}
             </h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
+            <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
               {language === 'es' ? 'Actualiza tu readme de github en automático cada día' : 'Automatically update your github readme every day'}
             </p>
           </div>
 
-          <div className="bg-white dark:bg-white dark:bg-zinc-950 p-5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 space-y-4">
-            <h3 className="text-sm font-bold text-black dark:text-black dark:text-white mb-2 uppercase tracking-widest">&gt; {language === 'es' ? 'INSTRUCCIONES' : 'INSTRUCTIONS'}</h3>
-            <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 space-y-3 uppercase leading-relaxed">
+          <div className="bg-white dark:bg-zinc-950 p-5 border border-zinc-300 dark:border-zinc-800 space-y-4">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2 uppercase tracking-widest">&gt; {language === 'es' ? 'INSTRUCCIONES' : 'INSTRUCTIONS'}</h3>
+            <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-400 space-y-3 uppercase leading-relaxed">
               <li>
-                {language === 'es' ? 'Agrega estos marcadores a tu' : 'Add these markers to your'} <code className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">README.md</code>:
-                <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-2 mt-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                {language === 'es' ? 'Agrega estos marcadores a tu' : 'Add these markers to your'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">README.md</code>:
+                <div className="bg-[#f5f4ef] dark:bg-black p-2 mt-2 border border-zinc-300 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-500">
                   &lt;!-- STATS_START --&gt;<br/>
                   &lt;!-- STATS_END --&gt;
                 </div>
               </li>
               <li>
-                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">update-stats.js</code> {language === 'es' ? 'en la raíz de tu repositorio y pega el código del script.' : 'in your repo root and paste the Script code.'}
+                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">update-stats.js</code> {language === 'es' ? 'en la raíz de tu repositorio y pega el código del script.' : 'in your repo root and paste the Script code.'}
               </li>
               <li>
-                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">.github/workflows/update.yml</code> {language === 'es' ? 'y pega el código de la acción.' : 'and paste the Action code.'}
+                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">.github/workflows/update.yml</code> {language === 'es' ? 'y pega el código de la acción.' : 'and paste the Action code.'}
               </li>
               <li>{language === 'es' ? '¡Haz push a GitHub. ¡Se actualizará automáticamente cada 6 horas!' : 'Push to GitHub. It will automatically update your README every 6 hours!'}</li>
             </ol>
@@ -132,11 +132,11 @@ updateStats();
         <div className="flex-1 space-y-4">
           
           {/* Action Code */}
-          <div className="flex flex-col bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow h-[250px]">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 bg-white dark:bg-white dark:bg-zinc-950">
+          <div className="flex flex-col bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow h-[250px]">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950">
               <div className="flex items-center gap-2 uppercase tracking-widest">
-                <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
-                <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">&gt; UPDATE.YML</span>
+                <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+                <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400">&gt; UPDATE.YML</span>
               </div>
               <button
                 onClick={() => copyCode(workflowCode, 'action')}
@@ -154,11 +154,11 @@ updateStats();
           </div>
 
           {/* Script Code */}
-          <div className="flex flex-col bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow h-[250px]">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 bg-white dark:bg-white dark:bg-zinc-950">
+          <div className="flex flex-col bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow h-[250px]">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950">
               <div className="flex items-center gap-2 uppercase tracking-widest">
-                <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
-                <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">&gt; UPDATE-STATS.JS</span>
+                <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+                <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400">&gt; UPDATE-STATS.JS</span>
               </div>
               <button
                 onClick={() => copyCode(scriptCode, 'script')}

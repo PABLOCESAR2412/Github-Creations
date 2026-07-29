@@ -80,17 +80,17 @@ export const ComponentBuilder: React.FC = () => {
   };
 
   const componentTypes = [
-    { id: 'title', label: 'TITLE', icon: <Plus className="w-4 h-4" /> },
-    { id: 'subtitle', label: 'SUBTITLE', icon: <Plus className="w-4 h-4" /> },
-    { id: 'stats', label: 'STATS', icon: <BarChart2 className="w-4 h-4" /> },
-    { id: 'languages', label: 'LANGS', icon: <Code2 className="w-4 h-4" /> },
-    { id: 'badges', label: 'BADGES', icon: <Shield className="w-4 h-4" /> },
-    { id: 'streak', label: 'STREAK', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'activity_graph', label: 'GRAPH', icon: <BarChart2 className="w-4 h-4" /> },
-    { id: 'visitors', label: 'VISITORS', icon: <Layout className="w-4 h-4" /> },
+    { id: 'title', label: language === 'es' ? 'TÍTULO' : 'TITLE', icon: <Plus className="w-4 h-4" /> },
+    { id: 'subtitle', label: language === 'es' ? 'SUBTÍTULO' : 'SUBTITLE', icon: <Plus className="w-4 h-4" /> },
+    { id: 'stats', label: language === 'es' ? 'ESTADÍSTICAS' : 'STATS', icon: <BarChart2 className="w-4 h-4" /> },
+    { id: 'languages', label: language === 'es' ? 'LENGUAJES' : 'LANGS', icon: <Code2 className="w-4 h-4" /> },
+    { id: 'badges', label: language === 'es' ? 'INSIGNIAS' : 'BADGES', icon: <Shield className="w-4 h-4" /> },
+    { id: 'streak', label: language === 'es' ? 'RACHA' : 'STREAK', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'activity_graph', label: language === 'es' ? 'GRÁFICA' : 'GRAPH', icon: <BarChart2 className="w-4 h-4" /> },
+    { id: 'visitors', label: language === 'es' ? 'VISITAS' : 'VISITORS', icon: <Layout className="w-4 h-4" /> },
     { id: 'repos', label: 'REPOS', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'table', label: 'TABLE', icon: <TableIcon className="w-4 h-4" /> },
-    { id: 'divider', label: 'DIVIDER', icon: <Plus className="w-4 h-4" /> },
+    { id: 'table', label: language === 'es' ? 'TABLA' : 'TABLE', icon: <TableIcon className="w-4 h-4" /> },
+    { id: 'divider', label: language === 'es' ? 'SEPARADOR' : 'DIVIDER', icon: <Plus className="w-4 h-4" /> },
   ] as const;
 
   return (

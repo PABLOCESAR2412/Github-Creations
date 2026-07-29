@@ -26,7 +26,7 @@ export const Title: React.FC<TitleProps> = ({
               key={a}
               onClick={() => onAlignChange?.(a)}
               className={`px-2 py-0.5 text-xs rounded capitalize transition-all ${
-                align === a ? 'bg-cyan-500 text-black font-semibold' : 'text-slate-400 hover:text-black dark:text-black dark:text-white'
+                align === a ? 'bg-cyan-500 text-black font-semibold' : 'text-slate-400 hover:text-black dark:text-white'
               }`}
             >
               {a}

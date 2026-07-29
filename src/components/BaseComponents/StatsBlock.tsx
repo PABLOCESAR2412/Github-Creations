@@ -28,7 +28,7 @@ export const StatsBlock: React.FC<StatsBlockProps> = ({ label, value, iconType, 
       <div>
         <span className="text-xs text-slate-400 font-medium tracking-wide uppercase block">{label}</span>
         <motion.span
-          className="text-xl font-extrabold text-black dark:text-black dark:text-white tracking-tight"
+          className="text-xl font-extrabold text-black dark:text-white tracking-tight"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}

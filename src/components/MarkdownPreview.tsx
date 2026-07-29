@@ -21,7 +21,7 @@ export const MarkdownPreview: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-5 shadow-2xl brutal-shadow font-mono flex flex-col h-full min-h-[600px] space-y-4">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-2xl brutal-shadow font-mono flex flex-col h-full min-h-[600px] space-y-4">
       {/* Header Tabs */}
       <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-3">
         <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ export const MarkdownPreview: React.FC = () => {
                 activeTab === 'code' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
               }`}
             >
-              <Code className="w-3.5 h-3.5" /> RAW_MD
+              <Code className="w-3.5 h-3.5" /> {language === 'es' ? 'CÓDIGO RAW' : 'RAW_MD'}
             </button>
           </div>
 

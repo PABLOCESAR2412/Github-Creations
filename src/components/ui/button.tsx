@@ -8,16 +8,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-blue-600 text-black dark:text-black dark:text-white shadow hover:bg-blue-700 active:bg-blue-800",
+          "bg-blue-600 text-black dark:text-white shadow hover:bg-blue-700 active:bg-blue-800",
         destructive:
-          "bg-red-600 text-black dark:text-black dark:text-white shadow-sm hover:bg-red-700 active:bg-red-800",
+          "bg-red-600 text-black dark:text-white shadow-sm hover:bg-red-700 active:bg-red-800",
         outline:
-          "border border-[#30363d] bg-[#161b22] text-[#c9d1d9] shadow-sm hover:bg-[#21262d] hover:text-black dark:text-black dark:text-white",
+          "border border-[#30363d] bg-[#161b22] text-[#c9d1d9] shadow-sm hover:bg-[#21262d] hover:text-black dark:text-white",
         secondary:
-          "bg-[#21262d] text-[#c9d1d9] shadow-sm hover:bg-[#30363d] hover:text-black dark:text-black dark:text-white",
-        ghost: "hover:bg-[#21262d] hover:text-black dark:text-black dark:text-white text-[#8b949e]",
+          "bg-[#21262d] text-[#c9d1d9] shadow-sm hover:bg-[#30363d] hover:text-black dark:text-white",
+        ghost: "hover:bg-[#21262d] hover:text-black dark:text-white text-[#8b949e]",
         link: "text-blue-400 underline-offset-4 hover:underline",
-        github: "bg-[#238636] text-black dark:text-black dark:text-white shadow hover:bg-[#2ea043] active:bg-[#238636] font-semibold",
+        github: "bg-[#238636] text-black dark:text-white shadow hover:bg-[#2ea043] active:bg-[#238636] font-semibold",
       },
       size: {
         default: "h-9 px-4 py-2",

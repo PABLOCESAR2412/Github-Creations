@@ -80,49 +80,49 @@ export default async function handler(req, res) {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl relative overflow-hidden brutal-shadow font-mono">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl relative overflow-hidden brutal-shadow font-mono">
       <div className="flex flex-col md:flex-row gap-8 relative z-10">
         
         {/* Left Side: Instructions and Config */}
         <div className="flex-1 space-y-6">
-          <div className="border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 pb-4">
-            <h2 className="text-xl font-black text-black dark:text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
+          <div className="border-b border-zinc-300 dark:border-zinc-800 pb-4">
+            <h2 className="text-xl font-black text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
               <Triangle className="w-6 h-6 text-[#00ffff] fill-current" />
               [ VERCEL_API_EXPORT ]
             </h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
+            <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
               Host your own 100% custom SVG endpoint for free on Vercel.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-white dark:bg-zinc-950 p-5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 space-y-4">
-            <h3 className="text-sm font-bold text-black dark:text-black dark:text-white mb-2 uppercase tracking-widest">&gt; 1. CUSTOMIZE_TEMPLATE</h3>
+          <div className="bg-white dark:bg-zinc-950 p-5 border border-zinc-300 dark:border-zinc-800 space-y-4">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2 uppercase tracking-widest">&gt; 1. CUSTOMIZE_TEMPLATE</h3>
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">BACKGROUND_COLOR</label>
-                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800">
+                <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">BACKGROUND_COLOR</label>
+                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-800">
                   <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-6 h-6 cursor-pointer bg-transparent border-0 p-0" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 font-mono uppercase">{bgColor}</span>
                 </div>
               </div>
               <div>
-                <label className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">ACCENT_COLOR</label>
-                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800">
+                <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">ACCENT_COLOR</label>
+                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-800">
                   <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-6 h-6 cursor-pointer bg-transparent border-0 p-0" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 font-mono uppercase">{accentColor}</span>
                 </div>
               </div>
               <div>
-                <label className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">TEXT_COLOR</label>
-                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800">
+                <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">TEXT_COLOR</label>
+                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-800">
                   <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} className="w-6 h-6 cursor-pointer bg-transparent border-0 p-0" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 font-mono uppercase">{textColor}</span>
                 </div>
               </div>
               <div>
-                <label className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">BORDER_RADIUS</label>
-                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 h-[42px] px-3">
+                <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">BORDER_RADIUS</label>
+                <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-800 h-[42px] px-3">
                   <input type="range" min={0} max={50} value={borderRadius} onChange={(e) => setBorderRadius(Number(e.target.value))} className="w-full accent-[#00ffff]" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 font-mono uppercase">{borderRadius}</span>
                 </div>
@@ -137,22 +137,22 @@ export default async function handler(req, res) {
             <p className="text-[10px] text-zinc-600 dark:text-zinc-500 uppercase">
               {language === 'es' ? 'Despliega tus endpoints dinámicos para SVGs estadísticos' : 'Deploy your dynamic endpoints for stat SVGs'}
             </p>
-            <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 space-y-2 uppercase">
+            <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-400 space-y-2 uppercase">
               <li>Create a new folder on your computer.</li>
-              <li>Inside it, create a folder called <code className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code>.</li>
-              <li>Inside the <code className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code> folder, create a file named <code className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">stats.js</code> and paste the code from the right.</li>
-              <li>Install the <a href="https://vercel.com/cli" target="_blank" className="text-[#00ffff] hover:underline">Vercel CLI</a> and run <code className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">vercel</code> in the root folder.</li>
-              <li>Use your new URL in your Markdown: <br/><code className="bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 p-1.5 text-[#00ffff] block mt-2 text-xs">![My Stats](https://tu-proyecto.vercel.app/api/stats?username={username || 'tu-usuario'})</code></li>
+              <li>Inside it, create a folder called <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code>.</li>
+              <li>Inside the <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code> folder, create a file named <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">stats.js</code> and paste the code from the right.</li>
+              <li>Install the <a href="https://vercel.com/cli" target="_blank" className="text-[#00ffff] hover:underline">Vercel CLI</a> and run <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">vercel</code> in the root folder.</li>
+              <li>Use your new URL in your Markdown: <br/><code className="bg-zinc-200 dark:bg-zinc-900 p-1.5 text-[#00ffff] block mt-2 text-xs">![My Stats](https://tu-proyecto.vercel.app/api/stats?username={username || 'tu-usuario'})</code></li>
             </ol>
           </div>
         </div>
 
         {/* Right Side: Code Output */}
-        <div className="flex-1 flex flex-col bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 bg-white dark:bg-white dark:bg-zinc-950">
+        <div className="flex-1 flex flex-col bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 overflow-hidden brutal-shadow">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950">
             <div className="flex items-center gap-2 uppercase tracking-widest">
-              <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
-              <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">&gt; API/STATS.JS</span>
+              <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+              <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400">&gt; API/STATS.JS</span>
             </div>
             <button
               onClick={handleCopy}
