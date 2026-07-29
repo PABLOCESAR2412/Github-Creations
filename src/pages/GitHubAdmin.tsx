@@ -19,7 +19,7 @@ interface RateLimitResponse {
 }
 
 export const GitHubAdmin: React.FC = () => {
-  const { token } = useEditorStore();
+  const { token, language } = useEditorStore();
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export const GitHubAdmin: React.FC = () => {
     
     return {
       absolute: date.toLocaleTimeString(),
-      relative: `in ${diffMins} mins`
+      relative: language === 'es' ? `en ${diffMins} min` : `in ${diffMins} mins`
     };
   };
 
@@ -84,11 +84,11 @@ export const GitHubAdmin: React.FC = () => {
           </div>
           
           <div className="text-right">
-            <div className="text-2xl font-black tracking-tight text-black dark:text-black dark:text-white">
+            <div className="text-2xl font-black tracking-tight text-black dark:text-white">
               {formatNumber(info.remaining)} <span className="text-sm font-medium text-slate-500">/ {formatNumber(info.limit)}</span>
             </div>
             <p className={`text-xs font-semibold ${isLow ? 'text-red-400' : 'text-emerald-400'}`}>
-              {percentage.toFixed(1)}% Available
+              {percentage.toFixed(1)}% {language === 'es' ? 'Disponible' : 'Available'}
             </p>
           </div>
         </div>
@@ -104,10 +104,10 @@ export const GitHubAdmin: React.FC = () => {
         {/* Details Footer */}
         <div className="flex items-center justify-between text-xs text-slate-400 bg-slate-950/50 p-3 rounded-lg">
           <div className="flex items-center gap-1.5">
-            <Activity className="w-3.5 h-3.5" /> Used: <span className="text-slate-200 font-semibold">{info.used}</span>
+            <Activity className="w-3.5 h-3.5" /> {language === 'es' ? 'Usado' : 'Used'}: <span className="text-slate-200 font-semibold">{info.used}</span>
           </div>
           <div className="flex items-center gap-1.5" title={`Resets at ${resetTime.absolute}`}>
-            <Clock className="w-3.5 h-3.5" /> Resets: <span className="text-slate-200 font-semibold">{resetTime.relative}</span>
+            <Clock className="w-3.5 h-3.5" /> {language === 'es' ? 'Reinicio' : 'Resets'}: <span className="text-slate-200 font-semibold">{resetTime.relative}</span>
           </div>
         </div>
       </div>
@@ -120,19 +120,21 @@ export const GitHubAdmin: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-black dark:text-black dark:text-white flex items-center gap-3">
+          <h1 className="text-2xl font-black text-black dark:text-white flex items-center gap-3">
             <Server className="w-7 h-7 text-cyan-400" />
-            GitHub API Rate Limits
+            {language === 'es' ? 'Límites de API GitHub' : 'GitHub API Rate Limits'}
           </h1>
           <p className="text-slate-400 text-sm mt-1">
-            Monitor your API request quotas and usage across different GitHub resources.
+            {language === 'es' ? 'Monitorea tus cuotas de peticiones a la API.' : 'Monitor your API request quotas and usage across different GitHub resources.'}
           </p>
         </div>
         
         <div className="flex items-center gap-3">
           <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-semibold ${token ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-amber-500/10 border-amber-500/20 text-amber-400'}`}>
             <Key className="w-4 h-4" />
-            {token ? 'Authenticated (Higher Limits)' : 'Unauthenticated (Lower Limits)'}
+            {token 
+              ? (language === 'es' ? 'Autenticado' : 'Authenticated') 
+              : (language === 'es' ? 'No Autenticado' : 'Unauthenticated')}
           </div>
           <button 
             onClick={fetchRateLimit}
@@ -140,7 +142,7 @@ export const GitHubAdmin: React.FC = () => {
             className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl transition-all disabled:opacity-50 text-sm font-semibold border border-slate-700"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            Refresh Data
+            {language === 'es' ? 'Actualizar' : 'Refresh Data'}
           </button>
         </div>
       </div>
@@ -163,9 +165,9 @@ export const GitHubAdmin: React.FC = () => {
 
       {/* Info Section */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-sm text-slate-300">
-        <h3 className="font-bold text-black dark:text-black dark:text-white mb-2 flex items-center gap-2">
+        <h3 className="font-bold text-black dark:text-white mb-2 flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 text-amber-400" />
-          Why does this matter?
+          {language === 'es' ? '¿Por qué importa esto?' : 'Why does this matter?'}
         </h3>
         <p className="mb-4 text-slate-400">
           GitHub limits the number of requests you can make to their API to prevent abuse. 

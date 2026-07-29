@@ -4,7 +4,7 @@ import { useEditorStore } from '../store/editorStore';
 import { motion } from 'framer-motion';
 
 export const ExportButtons: React.FC = () => {
-  const { markdownOutput, username, setPreset } = useEditorStore();
+  const { markdownOutput, username, setPreset, language } = useEditorStore();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -30,32 +30,36 @@ export const ExportButtons: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-800 p-5 shadow-xl flex items-center justify-between font-mono uppercase tracking-widest">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-xl flex items-center justify-between font-mono uppercase tracking-widest">
       <div className="flex items-center gap-4">
-        <div className="p-2.5 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
+        <div className="p-2.5 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
           <FileText className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-sm font-bold text-black dark:text-black dark:text-white">Export Markdown</h3>
-          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Copy or save generated file</p>
+          <h3 className="text-sm font-bold text-black dark:text-white">
+            {language === 'es' ? 'Exportar Markdown' : 'Export Markdown'}
+          </h3>
+          <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">
+            {language === 'es' ? 'Copia o guarda el archivo' : 'Copy or save generated file'}
+          </p>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
         <button
           onClick={() => setPreset('full')}
-          className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 hover:text-black dark:text-black dark:text-white px-4 py-2.5 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-4 py-2.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
-          <span>[ RESET_LAYOUT ]</span>
+          <span>{language === 'es' ? '[ REINICIAR_DISEÑO ]' : '[ RESET_LAYOUT ]'}</span>
         </button>
 
         <button
           onClick={handleDownload}
-          className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:bg-zinc-200 dark:bg-zinc-900 text-black dark:text-black dark:text-white font-bold text-xs px-5 py-2.5 border border-zinc-300 dark:border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
         >
           <Download className="w-4 h-4 text-[#00ffff]" />
-          <span>[ DOWNLOAD.MD ]</span>
+          <span>[ DESCARGAR.MD ]</span>
         </button>
 
         <motion.button
@@ -67,12 +71,12 @@ export const ExportButtons: React.FC = () => {
           {copied ? (
             <>
               <Check className="w-4 h-4 text-black" />
-              <span>COPIED!</span>
+              <span>{language === 'es' ? '¡COPIADO!' : 'COPIED!'}</span>
             </>
           ) : (
             <>
               <Copy className="w-4 h-4 text-black" />
-              <span>COPY MARKDOWN</span>
+              <span>{language === 'es' ? 'COPIAR MARKDOWN' : 'COPY MARKDOWN'}</span>
             </>
           )}
         </motion.button>

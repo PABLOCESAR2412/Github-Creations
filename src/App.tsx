@@ -3,9 +3,11 @@ import { Home } from './pages/Home';
 import { GitHubAdmin } from './pages/GitHubAdmin';
 import { Code2, Zap, FolderGit2, ShieldAlert } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEditorStore } from './store/editorStore';
 
 const Navigation = () => {
   const location = useLocation();
+  const { language } = useEditorStore();
   
   return (
     <header className="border-b border-zinc-300 dark:border-zinc-800 bg-[#f5f4ef] dark:bg-black sticky top-0 z-50 px-6 py-4 flex items-center justify-between font-mono uppercase tracking-widest text-sm">
@@ -41,13 +43,13 @@ const Navigation = () => {
             to="/" 
             className={`transition-colors hover:text-[#00ffff] outline-none ${location.pathname === '/' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : ''}`}
           >
-            [ BUILDER ]
+            {language === 'es' ? '[ CONSTRUCTOR ]' : '[ BUILDER ]'}
           </Link>
           <Link 
             to="/githubadmin" 
             className={`flex items-center gap-2 transition-colors hover:text-[#00ffff] outline-none ${location.pathname === '/githubadmin' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : ''}`}
           >
-            <ShieldAlert className="w-4 h-4" /> [ API_LIMITS ]
+            <ShieldAlert className="w-4 h-4" /> {language === 'es' ? '[ LIMITES_API ]' : '[ API_LIMITS ]'}
           </Link>
         </nav>
         
@@ -74,7 +76,7 @@ export function App() {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-900 px-6 py-4 text-center text-xs text-zinc-600 flex items-center justify-between mt-auto bg-[#f5f4ef] dark:bg-black uppercase tracking-wider">
+        <footer className="border-t border-zinc-300 dark:border-zinc-900 px-6 py-4 text-center text-xs text-zinc-600 flex items-center justify-between mt-auto bg-[#f5f4ef] dark:bg-black uppercase tracking-wider">
           <span>GITHUB_CREATIONS // 2026</span>
           <span className="flex items-center gap-2">
             SYS <Code2 className="w-4 h-4 text-[#00ffff] inline" /> RUST
