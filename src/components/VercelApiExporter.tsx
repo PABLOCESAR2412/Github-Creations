@@ -13,7 +13,7 @@ export const VercelApiExporter: React.FC = () => {
   const [textColor, setTextColor] = useState('#8b949e');
   const [accentColor, setAccentColor] = useState('#ffffff');
   
-  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal'>('brutalist');
+  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'newspaper' | 'hacker' | 'polaroid' | 'dashboard'>('brutalist');
   
   const [dataPoints, setDataPoints] = useState({
     followers: true,
@@ -82,7 +82,7 @@ export const VercelApiExporter: React.FC = () => {
           }).join('')}
         </g>
       `;
-    } else { // minimal
+    } else if (layout === 'minimal') {
       svgInner = `
         <rect width="400" height="100" fill="${bgColor}" rx="8" stroke="${borderColor}" stroke-width="1" />
         <text x="20" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="${titleColor}">${nameVal}</text>
@@ -98,11 +98,202 @@ export const VercelApiExporter: React.FC = () => {
           }).join('')}
         </g>
       `;
+    } else if (layout === 'cyberpunk') {
+      svgInner = `
+        <path d="M 0,20 L 20,0 L 400,0 L 400,180 L 380,200 L 0,200 Z" fill="${bgColor}" stroke="${accentColor}" stroke-width="2" />
+        <path d="M 0,20 L 20,0 L 400,0" fill="none" stroke="${borderColor}" stroke-width="4" />
+        <text x="30" y="30" font-family="monospace" font-size="20" font-weight="900" fill="${titleColor}" font-style="italic">${nameVal}</text>
+        <g transform="translate(30, 60)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <rect x="${col * 170}" y="${row * 60}" width="150" height="40" fill="${accentColor}" fill-opacity="0.2" stroke="${accentColor}" stroke-width="1" />
+              <text x="${col * 170 + 10}" y="${row * 60 + 15}" font-family="monospace" font-size="10" fill="${textColor}">${stat.label}</text>
+              <text x="${col * 170 + 10}" y="${row * 60 + 32}" font-family="monospace" font-size="16" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'glassmorphism') {
+      svgInner = `
+        <defs>
+          <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="${bgColor}" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="${bgColor}" stop-opacity="0.3" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="200" fill="url(#glassGrad)" rx="16" stroke="${borderColor}" stroke-width="1" stroke-opacity="0.5" />
+        <circle cx="50" cy="50" r="40" fill="${accentColor}" opacity="0.3" filter="blur(10px)" />
+        <circle cx="350" cy="150" r="60" fill="${titleColor}" opacity="0.2" filter="blur(15px)" />
+        <text x="30" y="40" font-family="sans-serif" font-size="22" font-weight="bold" fill="${titleColor}">${nameVal}</text>
+        <g transform="translate(30, 70)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <rect x="${col * 170}" y="${row * 55}" width="150" height="45" fill="#ffffff" fill-opacity="0.1" rx="8" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.2"/>
+              <text x="${col * 170 + 15}" y="${row * 55 + 20}" font-family="sans-serif" font-size="11" fill="${textColor}">${stat.label}</text>
+              <text x="${col * 170 + 15}" y="${row * 55 + 38}" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'retro-dos') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" stroke="${borderColor}" stroke-width="4" />
+        <rect x="4" y="4" width="392" height="192" fill="none" stroke="${accentColor}" stroke-width="1" stroke-dasharray="2 2" />
+        <text x="20" y="30" font-family="monospace" font-size="14" font-weight="bold" fill="${titleColor}">C:\\USERS\${nameVal.toUpperCase()}&gt; STATS.EXE</text>
+        <g transform="translate(20, 70)">
+          ${activeStats.map((stat, i) => `
+            <text x="0" y="${i * 25}" font-family="monospace" font-size="14" fill="${textColor}">[${stat.label.toUpperCase()}]</text>
+            <text x="150" y="${i * 25}" font-family="monospace" font-size="14" fill="${accentColor}">${stat.value}</text>
+          `).join('')}
+        </g>
+      `;
+    } else if (layout === 'neon-glow') {
+      svgInner = `
+        <defs>
+          <filter id="neonGlow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <rect width="400" height="200" fill="${bgColor}" rx="12" />
+        <rect width="396" height="196" x="2" y="2" fill="none" stroke="${accentColor}" stroke-width="2" rx="10" filter="url(#neonGlow)" />
+        <text x="200" y="40" font-family="sans-serif" font-size="24" font-weight="bold" fill="${titleColor}" text-anchor="middle" filter="url(#neonGlow)">${nameVal}</text>
+        <g transform="translate(40, 80)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <text x="${col * 160 + 80}" y="${row * 60}" font-family="sans-serif" font-size="12" fill="${textColor}" text-anchor="middle">${stat.label}</text>
+              <text x="${col * 160 + 80}" y="${row * 60 + 25}" font-family="sans-serif" font-size="20" font-weight="bold" fill="${accentColor}" text-anchor="middle" filter="url(#neonGlow)">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'pixel-art') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" />
+        <path d="M4 0h392v4H4z M0 4h4v192H0z M396 4h4v192h-4z M4 196h392v4H4z" fill="${borderColor}" />
+        <rect x="8" y="8" width="384" height="32" fill="${accentColor}" />
+        <text x="20" y="28" font-family="monospace" font-size="16" font-weight="bold" fill="${bgColor}">${nameVal}</text>
+        <g transform="translate(20, 70)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <rect x="${col * 180}" y="${row * 55}" width="160" height="40" fill="none" stroke="${borderColor}" stroke-width="2" />
+              <text x="${col * 180 + 10}" y="${row * 55 + 15}" font-family="monospace" font-size="10" fill="${textColor}">${stat.label}</text>
+              <text x="${col * 180 + 10}" y="${row * 55 + 30}" font-family="monospace" font-size="14" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'material') {
+      svgInner = `
+        <defs>
+          <filter id="matShadow" x="-10%" y="-10%" width="130%" height="130%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+          </filter>
+        </defs>
+        <rect width="380" height="180" x="10" y="10" fill="${bgColor}" rx="12" filter="url(#matShadow)" />
+        <rect x="10" y="10" width="380" height="60" fill="${accentColor}" rx="12" />
+        <rect x="10" y="40" width="380" height="30" fill="${accentColor}" />
+        <text x="30" y="45" font-family="sans-serif" font-size="22" font-weight="bold" fill="${bgColor}">${nameVal}</text>
+        <g transform="translate(30, 90)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <text x="${col * 170}" y="${row * 50}" font-family="sans-serif" font-size="12" fill="${textColor}">${stat.label}</text>
+              <text x="${col * 170}" y="${row * 50 + 22}" font-family="sans-serif" font-size="18" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'newspaper') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" stroke="${borderColor}" stroke-width="1" />
+        <rect x="10" y="10" width="380" height="180" fill="none" stroke="${borderColor}" stroke-width="3" />
+        <text x="200" y="45" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="${titleColor}" text-anchor="middle">THE ${nameVal.toUpperCase()} TIMES</text>
+        <line x1="20" y1="55" x2="380" y2="55" stroke="${borderColor}" stroke-width="2" />
+        <line x1="20" y1="60" x2="380" y2="60" stroke="${borderColor}" stroke-width="1" />
+        <g transform="translate(20, 90)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <text x="${col * 190}" y="${row * 50}" font-family="Georgia, serif" font-size="12" fill="${textColor}" font-style="italic">${stat.label}</text>
+              <text x="${col * 190}" y="${row * 50 + 25}" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+              ${col === 0 ? `<line x1="180" y1="-10" x2="180" y2="90" stroke="${borderColor}" stroke-width="1" stroke-dasharray="4 4" />` : ''}
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'hacker') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" />
+        <text x="10" y="25" font-family="monospace" font-size="12" fill="${accentColor}">root@${nameVal}:~# ./scan_stats.sh</text>
+        <g transform="translate(10, 50)">
+          ${activeStats.map((stat, i) => `
+            <text x="0" y="${i * 25}" font-family="monospace" font-size="12" fill="${textColor}">Extracting ${stat.label}...</text>
+            <text x="200" y="${i * 25}" font-family="monospace" font-size="12" font-weight="bold" fill="${titleColor}">[ OK ] ${stat.value}</text>
+          `).join('')}
+        </g>
+        <text x="10" y="${50 + activeStats.length * 25 + 15}" font-family="monospace" font-size="12" fill="${accentColor}" class="blink">root@${nameVal}:~# █</text>
+      `;
+    } else if (layout === 'polaroid') {
+      svgInner = `
+        <defs>
+          <filter id="dropShadow" x="0" y="0" width="120%" height="120%">
+            <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+          </filter>
+        </defs>
+        <rect width="400" height="200" fill="${bgColor}" />
+        <rect x="100" y="10" width="200" height="180" fill="#ffffff" filter="url(#dropShadow)" />
+        <rect x="110" y="20" width="180" height="110" fill="${borderColor}" />
+        <text x="200" y="80" font-family="sans-serif" font-size="24" font-weight="bold" fill="${bgColor}" text-anchor="middle">${nameVal}</text>
+        <g transform="translate(110, 150)">
+          ${activeStats.map((stat, i) => {
+            const row = Math.floor(i / 2);
+            const col = i % 2;
+            return `
+              <text x="${col * 90 + 45}" y="${row * 20}" font-family="Marker Felt, Comic Sans MS, sans-serif" font-size="12" fill="${textColor}" text-anchor="middle">${stat.label}</text>
+              <text x="${col * 90 + 45}" y="${row * 20 + 15}" font-family="Marker Felt, Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="${titleColor}" text-anchor="middle">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'dashboard') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" />
+        <rect x="10" y="10" width="380" height="40" fill="${borderColor}" rx="6" />
+        <text x="20" y="35" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Overview</text>
+        <g transform="translate(10, 60)">
+          ${activeStats.map((stat, i) => {
+            const width = activeStats.length > 2 ? 185 : 380;
+            const row = Math.floor(i / 2);
+            const col = activeStats.length > 2 ? i % 2 : 0;
+            const x = col * 195;
+            const y = activeStats.length > 2 ? row * 65 : i * 65;
+            return `
+              <rect x="${x}" y="${y}" width="${width}" height="55" fill="${borderColor}" rx="6" />
+              <circle cx="${x + 25}" cy="${y + 27}" r="15" fill="${accentColor}" fill-opacity="0.2" />
+              <text x="${x + 45}" y="${y + 22}" font-family="sans-serif" font-size="10" fill="${textColor}">${stat.label.toUpperCase()}</text>
+              <text x="${x + 45}" y="${y + 42}" font-family="sans-serif" font-size="18" font-weight="bold" fill="${titleColor}">${stat.value}</text>
+            `;
+          }).join('')}
+        </g>
+      `;
     }
 
     return `<svg width="400" height="${layout === 'minimal' ? '100' : '200'}" viewBox="0 0 400 ${layout === 'minimal' ? '100' : '200'}" fill="none" xmlns="http://www.w3.org/2000/svg">${svgInner}</svg>`;
   };
-
   const generateApiCode = () => {
     const svgTemplate = generateSvgContent(true);
 
@@ -172,11 +363,11 @@ ${svgTemplate.trim()}
                 <LayoutTemplate className="w-4 h-4" /> [ LAYOUT_STYLE ]
               </h3>
               <div className="grid grid-cols-3 gap-2">
-                {(['brutalist', 'terminal', 'minimal'] as const).map(l => (
+                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'newspaper', 'hacker', 'polaroid', 'dashboard'] as const).map(l => (
                   <button 
                     key={l}
                     onClick={() => setLayout(l)}
-                    className={`p-2 text-[10px] font-bold uppercase border transition-colors ${layout === l ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' : 'bg-transparent text-zinc-500 border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}`}
+                    className={`p-2 text-[9px] font-bold uppercase border transition-colors ${layout === l ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' : 'bg-transparent text-zinc-500 border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}`}
                   >
                     {l}
                   </button>
