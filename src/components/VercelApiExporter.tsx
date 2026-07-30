@@ -13,7 +13,7 @@ export const VercelApiExporter: React.FC = () => {
   const [textColor, setTextColor] = useState('#8b949e');
   const [accentColor, setAccentColor] = useState('#ffffff');
   
-  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'newspaper' | 'hacker' | 'polaroid' | 'dashboard'>('brutalist');
+  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'hacker' | 'dashboard'>('brutalist');
   
   const [dataPoints, setDataPoints] = useState({
     followers: true,
@@ -216,25 +216,6 @@ export const VercelApiExporter: React.FC = () => {
           }).join('')}
         </g>
       `;
-    } else if (layout === 'newspaper') {
-      svgInner = `
-        <rect width="400" height="200" fill="${bgColor}" stroke="${borderColor}" stroke-width="1" />
-        <rect x="10" y="10" width="380" height="180" fill="none" stroke="${borderColor}" stroke-width="3" />
-        <text x="200" y="45" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="${titleColor}" text-anchor="middle">THE ${nameVal.toUpperCase()} TIMES</text>
-        <line x1="20" y1="55" x2="380" y2="55" stroke="${borderColor}" stroke-width="2" />
-        <line x1="20" y1="60" x2="380" y2="60" stroke="${borderColor}" stroke-width="1" />
-        <g transform="translate(20, 90)">
-          ${activeStats.map((stat, i) => {
-            const row = Math.floor(i / 2);
-            const col = i % 2;
-            return `
-              <text x="${col * 190}" y="${row * 50}" font-family="Georgia, serif" font-size="12" fill="${textColor}" font-style="italic">${stat.label}</text>
-              <text x="${col * 190}" y="${row * 50 + 25}" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="${titleColor}">${stat.value}</text>
-              ${col === 0 ? `<line x1="180" y1="-10" x2="180" y2="90" stroke="${borderColor}" stroke-width="1" stroke-dasharray="4 4" />` : ''}
-            `;
-          }).join('')}
-        </g>
-      `;
     } else if (layout === 'hacker') {
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" />
@@ -246,28 +227,6 @@ export const VercelApiExporter: React.FC = () => {
           `).join('')}
         </g>
         <text x="10" y="${50 + activeStats.length * 25 + 15}" font-family="monospace" font-size="12" fill="${accentColor}" class="blink">root@${nameVal}:~# █</text>
-      `;
-    } else if (layout === 'polaroid') {
-      svgInner = `
-        <defs>
-          <filter id="dropShadow" x="0" y="0" width="120%" height="120%">
-            <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
-          </filter>
-        </defs>
-        <rect width="400" height="200" fill="${bgColor}" />
-        <rect x="100" y="10" width="200" height="180" fill="#ffffff" filter="url(#dropShadow)" />
-        <rect x="110" y="20" width="180" height="110" fill="${borderColor}" />
-        <text x="200" y="80" font-family="sans-serif" font-size="24" font-weight="bold" fill="${bgColor}" text-anchor="middle">${nameVal}</text>
-        <g transform="translate(110, 150)">
-          ${activeStats.map((stat, i) => {
-            const row = Math.floor(i / 2);
-            const col = i % 2;
-            return `
-              <text x="${col * 90 + 45}" y="${row * 20}" font-family="Marker Felt, Comic Sans MS, sans-serif" font-size="12" fill="${textColor}" text-anchor="middle">${stat.label}</text>
-              <text x="${col * 90 + 45}" y="${row * 20 + 15}" font-family="Marker Felt, Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="${titleColor}" text-anchor="middle">${stat.value}</text>
-            `;
-          }).join('')}
-        </g>
       `;
     } else if (layout === 'dashboard') {
       svgInner = `
@@ -363,7 +322,7 @@ ${svgTemplate.trim()}
                 <LayoutTemplate className="w-4 h-4" /> [ LAYOUT_STYLE ]
               </h3>
               <div className="grid grid-cols-3 gap-2">
-                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'newspaper', 'hacker', 'polaroid', 'dashboard'] as const).map(l => (
+                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'hacker', 'dashboard'] as const).map(l => (
                   <button 
                     key={l}
                     onClick={() => setLayout(l)}
