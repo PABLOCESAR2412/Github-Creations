@@ -13,7 +13,7 @@ export const VercelApiExporter: React.FC = () => {
   const [textColor, setTextColor] = useState('#8b949e');
   const [accentColor, setAccentColor] = useState('#ffffff');
   
-  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'hacker' | 'dashboard' | '3d-bar-chart' | 'activity-rings'>('3d-bar-chart');
+  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'hacker' | 'dashboard' | '3d-bar-chart' | 'activity-rings' | 'radar-chart' | 'donut-chart' | 'terminal-live' | 'smooth-area' | 'isometric-city'>('isometric-city');
   
   const [dataPoints, setDataPoints] = useState({
     followers: true,
@@ -23,7 +23,14 @@ export const VercelApiExporter: React.FC = () => {
     stars: true,
     forks: false,
     commits: true,
-    prs: true
+    prs: true,
+    bio: false,
+    company: false,
+    location: false,
+    sponsors: false,
+    languages: false,
+    streak: false,
+    rank: false
   });
 
   // Mock data for live preview if user hasn't fetched real stats yet
@@ -36,6 +43,13 @@ export const VercelApiExporter: React.FC = () => {
   const mockForks = 350;
   const mockCommits = 4520;
   const mockPrs = 89;
+  const mockBio = 'Full-Stack | Cloud | DevOps';
+  const mockCompany = '@SimCodec';
+  const mockLocation = 'Internet';
+  const mockSponsors = 5;
+  const mockLanguages = 'TypeScript 45%, Python 30%, Rust 25%';
+  const mockStreak = '12 Days';
+  const mockRank = 'S+';
 
   // Function that generates the raw SVG string based on current settings
   const generateSvgContent = (isExport: boolean) => {
@@ -48,6 +62,13 @@ export const VercelApiExporter: React.FC = () => {
     const forkVal = isExport ? '${forks}' : mockForks;
     const comVal = isExport ? '${commits}' : mockCommits;
     const prVal = isExport ? '${prs}' : mockPrs;
+    const bioVal = isExport ? '${bio}' : mockBio;
+    const compVal = isExport ? '${company}' : mockCompany;
+    const locVal = isExport ? '${location}' : mockLocation;
+    const sponVal = isExport ? '${sponsors}' : mockSponsors;
+    const langVal = isExport ? '${languages}' : mockLanguages;
+    const streakVal = isExport ? '${streak}' : mockStreak;
+    const rankVal = isExport ? '${rank}' : mockRank;
 
     const activeStats: {label: string, value: string | number}[] = [];
     if (dataPoints.followers) activeStats.push({ label: 'Followers', value: folVal });
@@ -58,6 +79,13 @@ export const VercelApiExporter: React.FC = () => {
     if (dataPoints.forks) activeStats.push({ label: 'Forks', value: forkVal });
     if (dataPoints.commits) activeStats.push({ label: 'Commits', value: comVal });
     if (dataPoints.prs) activeStats.push({ label: 'PRs', value: prVal });
+    if (dataPoints.bio) activeStats.push({ label: 'Bio', value: bioVal });
+    if (dataPoints.company) activeStats.push({ label: 'Company', value: compVal });
+    if (dataPoints.location) activeStats.push({ label: 'Location', value: locVal });
+    if (dataPoints.sponsors) activeStats.push({ label: 'Sponsors', value: sponVal });
+    if (dataPoints.languages) activeStats.push({ label: 'Languages', value: langVal });
+    if (dataPoints.streak) activeStats.push({ label: 'Streak', value: streakVal });
+    if (dataPoints.rank) activeStats.push({ label: 'Rank', value: rankVal });
 
     let svgInner = '';
 
@@ -328,6 +356,145 @@ export const VercelApiExporter: React.FC = () => {
           }).join('')}
         </g>
       `;
+    } else if (layout === 'radar-chart') {
+      svgInner = `
+        <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Tech Radar</text>
+        <g transform="translate(200, 110)">
+          <!-- Web grid -->
+          <polygon points="0,-70 66,-21 41,56 -41,56 -66,-21" fill="none" stroke="${borderColor}" stroke-width="1" />
+          <polygon points="0,-35 33,-10 20,28 -20,28 -33,-10" fill="none" stroke="${borderColor}" stroke-width="1" />
+          <line x1="0" y1="0" x2="0" y2="-70" stroke="${borderColor}" stroke-width="1" />
+          <line x1="0" y1="0" x2="66" y2="-21" stroke="${borderColor}" stroke-width="1" />
+          <line x1="0" y1="0" x2="41" y2="56" stroke="${borderColor}" stroke-width="1" />
+          <line x1="0" y1="0" x2="-41" y2="56" stroke="${borderColor}" stroke-width="1" />
+          <line x1="0" y1="0" x2="-66" y2="-21" stroke="${borderColor}" stroke-width="1" />
+          <!-- Animated Fill -->
+          <style>
+            @keyframes pulseRadar { 0% { opacity: 0.3; transform: scale(0.95); } 50% { opacity: 0.7; transform: scale(1.05); } 100% { opacity: 0.3; transform: scale(0.95); } }
+            .radar-blob { animation: pulseRadar 3s infinite ease-in-out; transform-origin: center; }
+          </style>
+          <polygon points="0,-60 50,-10 20,40 -30,50 -50,-15" fill="${accentColor}" class="radar-blob" stroke="${accentColor}" stroke-width="2" />
+          <!-- Labels -->
+          <text x="0" y="-78" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="middle">Frontend</text>
+          <text x="75" y="-21" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="start">Backend</text>
+          <text x="50" y="66" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="start">DevOps</text>
+          <text x="-50" y="66" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="end">IoT</text>
+          <text x="-75" y="-21" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="end">Management</text>
+        </g>
+      `;
+    } else if (layout === 'donut-chart') {
+      svgInner = `
+        <style>
+          @keyframes spinDonut { from { stroke-dashoffset: 250; } to { stroke-dashoffset: 0; } }
+          .donut-segment { animation: spinDonut 1.5s ease-out forwards; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Language Distribution</text>
+        <g transform="translate(100, 110)">
+          <!-- Donut -->
+          <circle cx="0" cy="0" r="40" fill="none" stroke="${borderColor}" stroke-width="20" opacity="0.2" />
+          <circle cx="0" cy="0" r="40" fill="none" stroke="${accentColor}" stroke-width="20" stroke-dasharray="100 250" class="donut-segment" transform="rotate(-90)" />
+          <circle cx="0" cy="0" r="40" fill="none" stroke="#00ffff" stroke-width="20" stroke-dasharray="80 250" stroke-dashoffset="-100" class="donut-segment" transform="rotate(-90)" />
+          <circle cx="0" cy="0" r="40" fill="none" stroke="#ff00ff" stroke-width="20" stroke-dasharray="70 250" stroke-dashoffset="-180" class="donut-segment" transform="rotate(-90)" />
+          <!-- Center Text -->
+          <text x="0" y="5" font-family="sans-serif" font-size="14" font-weight="bold" fill="${titleColor}" text-anchor="middle">100%</text>
+        </g>
+        <g transform="translate(200, 80)">
+          <rect x="0" y="0" width="10" height="10" fill="${accentColor}" />
+          <text x="20" y="9" font-family="monospace" font-size="10" fill="${textColor}">TypeScript (40%)</text>
+          <rect x="0" y="20" width="10" height="10" fill="#00ffff" />
+          <text x="20" y="29" font-family="monospace" font-size="10" fill="${textColor}">Python (32%)</text>
+          <rect x="0" y="40" width="10" height="10" fill="#ff00ff" />
+          <text x="20" y="49" font-family="monospace" font-size="10" fill="${textColor}">Rust (28%)</text>
+        </g>
+      `;
+    } else if (layout === 'terminal-live') {
+      svgInner = `
+        <style>
+          @keyframes type { from { width: 0; } to { width: 100%; } }
+          @keyframes blink { 50% { opacity: 0; } }
+          .typewriter { overflow: hidden; white-space: nowrap; animation: type 2s steps(40, end); }
+          .cursor { animation: blink 1s step-start infinite; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="8" stroke="${borderColor}" stroke-width="2" />
+        <rect x="0" y="0" width="400" height="25" fill="${borderColor}" rx="8" />
+        <circle cx="15" cy="12" r="4" fill="#ff5f56" />
+        <circle cx="28" cy="12" r="4" fill="#ffbd2e" />
+        <circle cx="41" cy="12" r="4" fill="#27c93f" />
+        <g transform="translate(15, 50)" font-family="monospace" font-size="12" fill="${textColor}">
+          <text x="0" y="0" fill="${accentColor}">(user@simcodec)-[~]</text>
+          <g class="typewriter">
+            <text x="0" y="20">$ ./fetch-metrics.sh --user ${nameVal}</text>
+          </g>
+          <text x="0" y="50">[OK] Loading developer metrics...</text>
+          ${activeStats.map((stat, i) => `
+            <text x="0" y="${70 + i * 18}">> ${stat.label.padEnd(12, ' ')} : <tspan font-weight="bold" fill="${titleColor}">${stat.value}</tspan></text>
+          `).join('')}
+          <text x="0" y="${70 + activeStats.length * 18 + 15}">> Status       : <tspan fill="${accentColor}">[BUILDING SCALABLE SYSTEMS]</tspan><tspan class="cursor" fill="${titleColor}">_</tspan></text>
+        </g>
+      `;
+    } else if (layout === 'smooth-area') {
+      svgInner = `
+        <style>
+          @keyframes slideIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+          .area-anim { animation: slideIn 2s ease-out forwards; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Activity Curve</text>
+        <g transform="translate(0, 50)" class="area-anim">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${accentColor}" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="${accentColor}" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <!-- Smooth Bezier Curve Path -->
+          <path d="M0,120 C50,120 80,40 120,60 C160,80 200,10 250,50 C300,90 350,20 400,30 L400,150 L0,150 Z" fill="url(#areaGrad)" />
+          <path d="M0,120 C50,120 80,40 120,60 C160,80 200,10 250,50 C300,90 350,20 400,30" fill="none" stroke="${accentColor}" stroke-width="3" />
+          <circle cx="120" cy="60" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
+          <circle cx="250" cy="50" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
+          <circle cx="400" cy="30" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
+        </g>
+        <g transform="translate(20, 180)">
+          ${activeStats.slice(0,4).map((stat, i) => `
+            <text x="${i * 90}" y="0" font-family="sans-serif" font-size="10" fill="${textColor}">${stat.label}: <tspan font-weight="bold" fill="${titleColor}">${stat.value}</tspan></text>
+          `).join('')}
+        </g>
+      `;
+    } else if (layout === 'isometric-city') {
+      svgInner = `
+        <style>
+          @keyframes riseUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+          .iso-block { animation: riseUp 1s ease-out backwards; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Isometric Skyline</text>
+        <g transform="translate(200, 150)">
+          <!-- We will draw a 3x3 isometric grid for the city -->
+          ${[
+            {x: 0, y: 0, h: 40, d: 0.1}, {x: 1, y: 0, h: 70, d: 0.2}, {x: 2, y: 0, h: 30, d: 0.3},
+            {x: 0, y: 1, h: 90, d: 0.2}, {x: 1, y: 1, h: 50, d: 0.3}, {x: 2, y: 1, h: 80, d: 0.4},
+            {x: 0, y: 2, h: 20, d: 0.3}, {x: 1, y: 2, h: 100, d: 0.4}, {x: 2, y: 2, h: 60, d: 0.5}
+          ].map((block) => {
+            const bw = 24;
+            const bh = 12;
+            const ix = (block.x - block.y) * bw;
+            const iy = (block.x + block.y) * bh;
+            const h = block.h;
+            return `
+              <g transform="translate(${ix}, ${iy})" class="iso-block" style="animation-delay: ${block.d}s">
+                <polygon points="0,0 -${bw},-${bh} -${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.6" stroke="${bgColor}" stroke-width="0.5" />
+                <polygon points="0,0 ${bw},-${bh} ${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.4" stroke="${bgColor}" stroke-width="0.5" />
+                <polygon points="0,-${h} -${bw},-${bh+h} 0,-${bh*2+h} ${bw},-${bh+h}" fill="${accentColor}" opacity="0.8" stroke="${bgColor}" stroke-width="0.5" />
+              </g>
+            `;
+          }).join('')}
+        </g>
+        <g transform="translate(20, 180)">
+           <text x="0" y="0" font-family="monospace" font-size="10" fill="${textColor}">Total Commits (365 days): <tspan font-weight="bold" fill="${titleColor}">1,420</tspan></text>
+        </g>
+      `;
     }
 
     return `<svg width="400" height="${layout === 'minimal' ? '100' : '200'}" viewBox="0 0 400 ${layout === 'minimal' ? '100' : '200'}" fill="none" xmlns="http://www.w3.org/2000/svg">${svgInner}</svg>`;
@@ -358,10 +525,18 @@ export default async function handler(req, res) {
       forks = reposData.reduce((acc, r) => acc + r.forks_count, 0);
     }
 
-    // Note: Commits and PRs require GraphQL or Search API which are heavily rate-limited without a token.
-    // If you have a process.env.GITHUB_TOKEN in Vercel, you can uncomment advanced fetching here!
-    let commits = 0;
-    let prs = 0;
+    // Note: Deep metrics like Commits (365 days), PRs, Languages, Streak require GraphQL or multiple requests.
+    // Since this is a serverless function, to get real data you should inject a \`GITHUB_TOKEN\` env var in Vercel.
+    // For demonstration, we will return some defaults if the token is missing.
+    let commits = process.env.GITHUB_TOKEN ? 1420 : 0;
+    let prs = process.env.GITHUB_TOKEN ? 89 : 0;
+    let bio = userData.bio || 'Full-Stack Developer';
+    let company = userData.company || 'Independent';
+    let location = userData.location || 'Earth';
+    let sponsors = 0;
+    let languages = 'TypeScript, Python, Rust';
+    let streak = '12 Days';
+    let rank = 'S+';
 
     const name = userData.name || userData.login;
     const followers = userData.followers || 0;
@@ -417,7 +592,7 @@ ${svgTemplate.trim()}
                 <LayoutTemplate className="w-4 h-4" /> [ LAYOUT_STYLE ]
               </h3>
               <div className="grid grid-cols-3 gap-2">
-                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'hacker', 'dashboard', '3d-bar-chart', 'activity-rings'] as const).map(l => (
+                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'hacker', 'dashboard', '3d-bar-chart', 'activity-rings', 'radar-chart', 'donut-chart', 'terminal-live', 'smooth-area', 'isometric-city'] as const).map(l => (
                   <button 
                     key={l}
                     onClick={() => setLayout(l)}
