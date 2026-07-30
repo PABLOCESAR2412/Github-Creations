@@ -547,47 +547,65 @@ export const VercelApiExporter: React.FC = () => {
         </g>
       `;
     } else if (layout === 'isometric-city') {
-      // Generate a 52x7 full year grid deterministically based on mockCommits length
+      // Generate a 52x7 full year grid deterministically
       const blocks = [];
-      const cols = 35; // using 35 cols to fit properly in 400px
-      const rows = 7;
+      const cols = 52; // 52 weeks in a year
+      const rows = 7;  // 7 days a week
+      
       for (let c = 0; c < cols; c++) {
         for (let r = 0; r < rows; r++) {
-          // pseudo random height based on coordinates to make it look like a real commit graph
-          const randomH = Math.sin(c*2.4 + r) * Math.cos(c*1.1) * 30;
-          let h = randomH > 5 ? randomH : 2; 
-          if (c % 5 === 0 && r % 3 === 0) h += 40; // spikes
+          // sophisticated pseudo-random generation to simulate real human activity
+          // mix of sine waves for seasonality and modulo for weekend/weekday variance
+          const isWeekend = r === 0 || r === 6;
+          let baseActivity = Math.abs(Math.sin(c * 0.2) * Math.cos(r * 0.5));
+          if (isWeekend) baseActivity *= 0.3; // less activity on weekends
           
-          blocks.push({
-            x: c,
-            y: r,
-            h: Math.abs(h),
-            d: (c + r) * 0.02
-          });
+          let h = baseActivity * 20; 
+          
+          // Add some random "hackathon" or deadline spikes
+          if ((c * 17 + r * 23) % 29 === 0) h += 30;
+          if ((c * 11 + r * 3) % 41 === 0) h += 50;
+          
+          // Zero out some days entirely (empty days)
+          if ((c * 7 + r * 5) % 11 < 4) h = 0;
+          
+          if (h > 0) {
+            blocks.push({
+              x: c,
+              y: r,
+              h: Math.max(h, 2), // minimum height if active
+              d: (c + r) * 0.015 // animation delay
+            });
+          }
         }
       }
 
+      // CRITICAL: Sort by depth (x + y) so closer blocks render on top of farther blocks!
+      blocks.sort((a, b) => (a.x + a.y) - (b.x + b.y));
+
       svgInner = `
         <style>
-          @keyframes riseUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-          .iso-block { animation: riseUp 0.5s ease-out backwards; }
+          @keyframes riseUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+          .iso-block { animation: riseUp 0.8s cubic-bezier(0.1, 0.7, 0.1, 1) backwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
         <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Full Year Contribution City</text>
-        <g transform="translate(200, 50)">
+        <g transform="translate(100, 45)">
           ${blocks.map((block) => {
-            const bw = 4;
-            const bh = 2;
+            const bw = 3.5; // Slightly narrower to fit 52 weeks
+            const bh = 1.8;
             const ix = (block.x - block.y) * bw;
             const iy = (block.x + block.y) * bh;
             const h = block.h;
-            // hide tiny blocks to make it look sparse like a real graph
-            if (h < 4) return '';
+            
             return `
               <g transform="translate(${ix}, ${iy})" class="iso-block" style="animation-delay: ${block.d}s">
-                <polygon points="0,0 -${bw},-${bh} -${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.6" stroke="${bgColor}" stroke-width="0.2" />
-                <polygon points="0,0 ${bw},-${bh} ${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.4" stroke="${bgColor}" stroke-width="0.2" />
-                <polygon points="0,-${h} -${bw},-${bh+h} 0,-${bh*2+h} ${bw},-${bh+h}" fill="${accentColor}" opacity="0.8" stroke="${bgColor}" stroke-width="0.2" />
+                <!-- Left Face -->
+                <polygon points="0,0 -${bw},-${bh} -${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.6" stroke="${bgColor}" stroke-width="0.3" />
+                <!-- Right Face -->
+                <polygon points="0,0 ${bw},-${bh} ${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.4" stroke="${bgColor}" stroke-width="0.3" />
+                <!-- Top Face -->
+                <polygon points="0,-${h} -${bw},-${bh+h} 0,-${bh*2+h} ${bw},-${bh+h}" fill="${accentColor}" opacity="0.9" stroke="${bgColor}" stroke-width="0.3" />
               </g>
             `;
           }).join('')}
