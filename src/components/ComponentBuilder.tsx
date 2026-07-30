@@ -413,7 +413,14 @@ export const ComponentBuilder: React.FC = () => {
                     </div>
 
                     <div className="border-t border-zinc-300 dark:border-zinc-800 pt-3">
-                      <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-2">Data Points</span>
+                      <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-2 flex items-center justify-between">
+                        Data Points
+                        {((comp.selectedStats?.following || comp.selectedStats?.repos || comp.selectedStats?.gists) && comp.layout !== 'data-matrix') && (
+                          <span className="text-amber-500 font-bold lowercase bg-amber-500/10 px-1 text-[8px] border border-amber-500/20">
+                            ⚠️ rate limits may apply
+                          </span>
+                        )}
+                      </span>
                       <div className="flex flex-wrap gap-2">
                         {['followers', 'following', 'repos', 'gists', 'stars'].map(statKey => (
                           <label key={statKey} className="flex items-center gap-1">
@@ -432,6 +439,11 @@ export const ComponentBuilder: React.FC = () => {
                           </label>
                         ))}
                       </div>
+                      <p className="text-[9px] text-zinc-500 dark:text-zinc-500 mt-2 leading-tight">
+                        {language === 'es' 
+                          ? '* Following, Repos y Gists usan la API pública de GitHub a través de Shields.io y pueden mostrar "inválido" si Shields supera su límite global. Usa el CUSTOM_SVG_BUILDER (abajo) para evitar esto por completo.'
+                          : '* Following, Repos, and Gists use the public GitHub API via Shields.io and may show "invalid" if Shields hits its global rate limit. Use the CUSTOM_SVG_BUILDER below to avoid this entirely.'}
+                      </p>
                     </div>
                   </div>
                 )}
