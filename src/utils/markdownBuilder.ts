@@ -172,11 +172,13 @@ export const buildMarkdown = (
           const selectedStats = comp.selectedStats || { followers: true, following: true, repos: true, gists: true, stars: true };
 
           const availableStats = [
-            { id: 'followers', label: 'Followers', icon: 'users', query: '', url: `https://img.shields.io/github/followers/${username}`, isNative: true },
-            { id: 'following', label: 'Following', icon: 'user-plus', query: '$.following', url: `https://api.github.com/users/${username}` },
-            { id: 'repos', label: 'Public Repos', icon: 'book', query: '$.public_repos', url: `https://api.github.com/users/${username}` },
-            { id: 'gists', label: 'Public Gists', icon: 'code', query: '$.public_gists', url: `https://api.github.com/users/${username}` },
-            { id: 'stars', label: 'Total Stars', icon: 'star', query: '', url: `https://img.shields.io/github/stars/${username}`, isNative: true },
+            // Native dynamic shields
+            { id: 'followers', label: 'Followers', icon: 'users', url: `https://img.shields.io/github/followers/${username}`, isNative: true },
+            { id: 'stars', label: 'Total Stars', icon: 'star', url: `https://img.shields.io/github/stars/${username}`, isNative: true },
+            // Static snapshots to avoid rate limit 'invalid' errors
+            { id: 'following', label: 'Following', icon: 'user-plus', value: stats?.following ?? 0, isStatic: true },
+            { id: 'repos', label: 'Public Repos', icon: 'book', value: stats?.public_repos ?? 0, isStatic: true },
+            { id: 'gists', label: 'Public Gists', icon: 'code', value: stats?.public_gists ?? 0, isStatic: true },
           ];
 
           const activeStats = availableStats.filter(s => selectedStats[s.id as keyof typeof selectedStats]);
@@ -187,9 +189,14 @@ export const buildMarkdown = (
               : (badgeSpacing === 'spaced' ? '<br/><br/>\n' : '<br/>\n');
               
             const badges = activeStats.map(s => {
-              const badgeUrl = s.isNative 
-                ? `${s.url}?label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`
-                : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              let badgeUrl = '';
+              if (s.isNative) {
+                badgeUrl = `${s.url}?label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              } else if (s.isStatic) {
+                const labelEscaped = encodeURIComponent(s.label.replace(/-/g, '--'));
+                const valueEscaped = encodeURIComponent(String(s.value).replace(/-/g, '--'));
+                badgeUrl = `https://img.shields.io/badge/${labelEscaped}-${valueEscaped}-${vColor}?style=${badgeStyle}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              }
               return `<a href="https://github.com/${username}"><img src="${badgeUrl}" alt="${s.label}" /></a>`;
             }).join(separator);
             
@@ -199,9 +206,13 @@ export const buildMarkdown = (
             // Data Matrix (Markdown Table)
             let table = `| Metric | Count |\n| :--- | :--- |\n`;
             activeStats.forEach(s => {
-              const badgeUrl = s.isNative 
-                ? `${s.url}?label=%20&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`
-                : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=%20&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              let badgeUrl = '';
+              if (s.isNative) {
+                badgeUrl = `${s.url}?label=%20&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              } else if (s.isStatic) {
+                const valueEscaped = encodeURIComponent(String(s.value).replace(/-/g, '--'));
+                badgeUrl = `https://img.shields.io/badge/%20-${valueEscaped}-${vColor}?style=${badgeStyle}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              }
               table += `| **${s.label}** | <img src="${badgeUrl}" alt="${s.label}" /> |\n`;
             });
             return `\n${table}\n`;
