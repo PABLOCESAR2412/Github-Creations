@@ -99,7 +99,7 @@ updateStats();
         <div className="flex-1 space-y-6">
           <div className="border-b border-zinc-300 dark:border-zinc-800 pb-4">
             <h2 className="text-xl font-black text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
-              <PlaySquare className="w-6 h-6 text-[#00ffff]" />
+              <PlaySquare className="w-6 h-6 text-[#00ffff] dark:text-white" />
               {language === 'es' ? '[ AUTOMATIZACION_GITHUB_ACTIONS ]' : '[ GITHUB_ACTIONS_AUTOMATION ]'}
             </h2>
             <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
@@ -111,17 +111,17 @@ updateStats();
             <h3 className="text-sm font-bold text-black dark:text-white mb-2 uppercase tracking-widest">&gt; {language === 'es' ? 'INSTRUCCIONES' : 'INSTRUCTIONS'}</h3>
             <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-400 space-y-3 uppercase leading-relaxed">
               <li>
-                {language === 'es' ? 'Agrega estos marcadores a tu' : 'Add these markers to your'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">README.md</code>:
+                {language === 'es' ? 'Agrega estos marcadores a tu' : 'Add these markers to your'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff] dark:text-white">README.md</code>:
                 <div className="bg-[#f5f4ef] dark:bg-black p-2 mt-2 border border-zinc-300 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-500">
                   &lt;!-- STATS_START --&gt;<br/>
                   &lt;!-- STATS_END --&gt;
                 </div>
               </li>
               <li>
-                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">update-stats.js</code> {language === 'es' ? 'en la raíz de tu repositorio y pega el código del script.' : 'in your repo root and paste the Script code.'}
+                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff] dark:text-white">update-stats.js</code> {language === 'es' ? 'en la raíz de tu repositorio y pega el código del script.' : 'in your repo root and paste the Script code.'}
               </li>
               <li>
-                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff]">.github/workflows/update.yml</code> {language === 'es' ? 'y pega el código de la acción.' : 'and paste the Action code.'}
+                {language === 'es' ? 'Crea' : 'Create'} <code className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 px-1 text-[#00ffff] dark:text-white">.github/workflows/update.yml</code> {language === 'es' ? 'y pega el código de la acción.' : 'and paste the Action code.'}
               </li>
               <li>{language === 'es' ? '¡Haz push a GitHub. ¡Se actualizará automáticamente cada 6 horas!' : 'Push to GitHub. It will automatically update your README every 6 hours!'}</li>
             </ol>
@@ -140,14 +140,14 @@ updateStats();
               </div>
               <button
                 onClick={() => copyCode(workflowCode, 'action')}
-                className="flex items-center gap-1.5 bg-[#00ffff] hover:bg-white text-black px-4 py-1.5 transition-colors text-[10px] font-bold uppercase"
+                className="flex items-center gap-1.5 bg-[#00ffff] dark:bg-white hover:bg-white text-black px-4 py-1.5 transition-colors text-[10px] font-bold uppercase"
               >
                 {copiedAction ? <Check className="w-3 h-3 text-black" /> : <Copy className="w-3 h-3" />}
                 {copiedAction ? (language === 'es' ? '[ COPIADO ]' : '[ COPIED ]') : (language === 'es' ? '[ COPIAR ]' : '[ COPY ]')}
               </button>
             </div>
             <div className="flex-1 p-4 overflow-auto">
-              <pre className="text-[10px] font-mono text-[#00ffff] whitespace-pre-wrap leading-relaxed">
+              <pre className="text-[10px] font-mono text-[#00ffff] dark:text-white whitespace-pre-wrap leading-relaxed">
                 {workflowCode}
               </pre>
             </div>
@@ -162,14 +162,14 @@ updateStats();
               </div>
               <button
                 onClick={() => copyCode(scriptCode, 'script')}
-                className="flex items-center gap-1.5 bg-[#00ffff] hover:bg-white text-black px-4 py-1.5 transition-colors text-[10px] font-bold uppercase"
+                className="flex items-center gap-1.5 bg-[#00ffff] dark:bg-white hover:bg-white text-black px-4 py-1.5 transition-colors text-[10px] font-bold uppercase"
               >
                 {copiedScript ? <Check className="w-3 h-3 text-black" /> : <Copy className="w-3 h-3" />}
                 {copiedScript ? (language === 'es' ? '[ COPIADO ]' : '[ COPIED ]') : (language === 'es' ? '[ COPIAR ]' : '[ COPY ]')}
               </button>
             </div>
             <div className="flex-1 p-4 overflow-auto">
-              <pre className="text-[10px] font-mono text-[#00ffff] whitespace-pre-wrap leading-relaxed">
+              <pre className="text-[10px] font-mono text-[#00ffff] dark:text-white whitespace-pre-wrap leading-relaxed">
                 {scriptCode}
               </pre>
             </div>

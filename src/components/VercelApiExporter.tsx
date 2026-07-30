@@ -87,7 +87,7 @@ export default async function handler(req, res) {
         <div className="flex-1 space-y-6">
           <div className="border-b border-zinc-300 dark:border-zinc-800 pb-4">
             <h2 className="text-xl font-black text-black dark:text-white flex items-center gap-3 uppercase tracking-widest">
-              <Triangle className="w-6 h-6 text-[#00ffff] fill-current" />
+              <Triangle className="w-6 h-6 text-[#00ffff] dark:text-white fill-current" />
               [ VERCEL_API_EXPORT ]
             </h2>
             <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-2 uppercase">
@@ -123,7 +123,7 @@ export default async function handler(req, res) {
               <div>
                 <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 block uppercase">BORDER_RADIUS</label>
                 <div className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black p-2 border border-zinc-300 dark:border-zinc-800 h-[42px] px-3">
-                  <input type="range" min={0} max={50} value={borderRadius} onChange={(e) => setBorderRadius(Number(e.target.value))} className="w-full accent-[#00ffff]" />
+                  <input type="range" min={0} max={50} value={borderRadius} onChange={(e) => setBorderRadius(Number(e.target.value))} className="w-full accent-[#00ffff] dark:accent-white" />
                   <span className="text-xs text-zinc-700 dark:text-zinc-700 dark:text-zinc-300 font-mono uppercase">{borderRadius}</span>
                 </div>
               </div>
@@ -139,10 +139,10 @@ export default async function handler(req, res) {
             </p>
             <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-400 space-y-2 uppercase">
               <li>Create a new folder on your computer.</li>
-              <li>Inside it, create a folder called <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code>.</li>
-              <li>Inside the <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">api</code> folder, create a file named <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">stats.js</code> and paste the code from the right.</li>
-              <li>Install the <a href="https://vercel.com/cli" target="_blank" className="text-[#00ffff] hover:underline">Vercel CLI</a> and run <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff]">vercel</code> in the root folder.</li>
-              <li>Use your new URL in your Markdown: <br/><code className="bg-zinc-200 dark:bg-zinc-900 p-1.5 text-[#00ffff] block mt-2 text-xs">![My Stats](https://tu-proyecto.vercel.app/api/stats?username={username || 'tu-usuario'})</code></li>
+              <li>Inside it, create a folder called <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff] dark:text-white">api</code>.</li>
+              <li>Inside the <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff] dark:text-white">api</code> folder, create a file named <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff] dark:text-white">stats.js</code> and paste the code from the right.</li>
+              <li>Install the <a href="https://vercel.com/cli" target="_blank" className="text-[#00ffff] dark:text-white hover:underline">Vercel CLI</a> and run <code className="bg-zinc-200 dark:bg-zinc-900 px-1 text-[#00ffff] dark:text-white">vercel</code> in the root folder.</li>
+              <li>Use your new URL in your Markdown: <br/><code className="bg-zinc-200 dark:bg-zinc-900 p-1.5 text-[#00ffff] dark:text-white block mt-2 text-xs">![My Stats](https://tu-proyecto.vercel.app/api/stats?username={username || 'tu-usuario'})</code></li>
             </ol>
           </div>
         </div>
@@ -156,9 +156,9 @@ export default async function handler(req, res) {
             </div>
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] text-[10px] font-bold uppercase transition-colors"
+              className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] dark:hover:border-white text-[10px] font-bold uppercase transition-colors"
             >
-              {copiedCode ? <Check className="w-3 h-3 text-[#00ffff]" /> : <Copy className="w-3 h-3" />}
+              {copiedCode ? <Check className="w-3 h-3 text-[#00ffff] dark:text-white" /> : <Copy className="w-3 h-3" />}
               {copiedCode ? (language === 'es' ? 'COPIADO' : 'COPIED') : (language === 'es' ? 'COPIAR SCRIPT' : 'COPY SCRIPT')}
             </button>
           </div>

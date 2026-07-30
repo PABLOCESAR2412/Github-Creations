@@ -90,18 +90,18 @@ export const DynamicStatsConfigurator: React.FC = () => {
           
           <div>
             <h3 className="text-sm font-bold text-black dark:text-white mb-3 flex items-center gap-2 uppercase tracking-widest">
-              <LayoutGrid className="w-4 h-4 text-[#00ffff]" /> [ LAYOUT_DESIGN ]
+              <LayoutGrid className="w-4 h-4 text-[#00ffff] dark:text-white" /> [ LAYOUT_DESIGN ]
             </h3>
             <div className="grid grid-cols-2 gap-2 mb-4">
               <button 
                 onClick={() => setLayout('neon-cluster')}
-                className={`p-2 border text-xs font-bold uppercase transition-all ${layout === 'neon-cluster' ? 'bg-[#00ffff] border-[#00ffff] text-black' : 'bg-[#f5f4ef] dark:bg-black border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}
+                className={`p-2 border text-xs font-bold uppercase transition-all ${layout === 'neon-cluster' ? 'bg-[#00ffff] dark:bg-white border-[#00ffff] dark:border-white text-black' : 'bg-[#f5f4ef] dark:bg-black border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}
               >
                 NEON CLUSTER
               </button>
               <button 
                 onClick={() => setLayout('data-matrix')}
-                className={`p-2 border text-xs font-bold uppercase transition-all ${layout === 'data-matrix' ? 'bg-[#00ffff] border-[#00ffff] text-black' : 'bg-[#f5f4ef] dark:bg-black border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}
+                className={`p-2 border text-xs font-bold uppercase transition-all ${layout === 'data-matrix' ? 'bg-[#00ffff] dark:bg-white border-[#00ffff] dark:border-white text-black' : 'bg-[#f5f4ef] dark:bg-black border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-500'}`}
               >
                 DATA MATRIX
               </button>
@@ -111,7 +111,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
             <select 
               value={badgeStyle} 
               onChange={(e) => setBadgeStyle(e.target.value)}
-              className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white px-3 py-2 text-sm focus:border-[#00ffff] outline-none uppercase"
+              className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white px-3 py-2 text-sm focus:border-[#00ffff] dark:focus:border-white outline-none uppercase"
             >
               <option value="for-the-badge">FOR THE BADGE</option>
               <option value="flat-square">FLAT SQUARE</option>
@@ -156,7 +156,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
 
           <div>
             <h3 className="text-sm font-bold text-black dark:text-white mb-3 flex items-center gap-2 uppercase tracking-widest">
-              <List className="w-4 h-4 text-[#00ffff]" /> [ DATA_POINTS ]
+              <List className="w-4 h-4 text-[#00ffff] dark:text-white" /> [ DATA_POINTS ]
             </h3>
             <div className="space-y-2">
               {availableStats.map(s => (
@@ -166,7 +166,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
                     type="checkbox" 
                     checked={selectedStats[s.id]}
                     onChange={(e) => setSelectedStats(prev => ({ ...prev, [s.id]: e.target.checked }))}
-                    className="w-4 h-4 accent-[#00ffff]"
+                    className="w-4 h-4 accent-[#00ffff] dark:accent-white"
                   />
                 </label>
               ))}
@@ -176,7 +176,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
           <div className="pt-4 border-t border-zinc-300 dark:border-zinc-800">
             <button
               onClick={handleAddToMarkdown}
-              className="flex items-center justify-center gap-2 w-full bg-[#00ffff] hover:bg-white text-black font-bold text-sm px-4 py-3 transition-colors uppercase tracking-widest brutal-shadow"
+              className="flex items-center justify-center gap-2 w-full bg-[#00ffff] dark:bg-white hover:bg-white text-black font-bold text-sm px-4 py-3 transition-colors uppercase tracking-widest brutal-shadow"
             >
               <Plus className="w-5 h-5" /> [ INSERT_TO_MD ]
             </button>
@@ -185,7 +185,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
 
         {/* Live Preview Area */}
         <div className="col-span-1 lg:col-span-2 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 flex flex-col p-6 overflow-hidden relative brutal-shadow">
-          <div className="absolute top-4 left-4 text-[10px] font-mono text-[#00ffff] bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 px-2 py-1 uppercase tracking-widest font-bold">
+          <div className="absolute top-4 left-4 text-[10px] font-mono text-[#00ffff] dark:text-white bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 px-2 py-1 uppercase tracking-widest font-bold">
             [ LIVE_INTERACTIVE_PREVIEW ]
           </div>
           
@@ -199,7 +199,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
           
           <div className="mt-6 w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 p-4 overflow-auto">
             <div className="text-[10px] text-zinc-600 dark:text-zinc-500 uppercase tracking-widest font-bold mb-2">&gt; RAW_MARKDOWN_HTML</div>
-            <pre className="text-[11px] text-[#00ffff] font-mono whitespace-pre-wrap leading-relaxed">
+            <pre className="text-[11px] text-[#00ffff] dark:text-white font-mono whitespace-pre-wrap leading-relaxed">
               {generateMarkdown()}
             </pre>
           </div>
@@ -212,7 +212,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
     <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] space-y-6 font-mono">
       <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-4">
         <div className="flex items-center gap-4">
-          <div className="p-2.5 bg-[#00ffff] text-black border border-black dark:border-white">
+          <div className="p-2.5 bg-[#00ffff] dark:bg-white text-black border border-black dark:border-white">
             <Sparkles className="w-5 h-5" />
           </div>
           <div className="font-mono">

@@ -20,14 +20,14 @@ export const Home: React.FC = () => {
       <div className="col-span-12 flex justify-end gap-4 mb-2">
         <button
           onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
-          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] dark:hover:text-white hover:border-[#00ffff] dark:hover:border-white transition-colors"
         >
           <Globe className="w-4 h-4" />
           {language === 'en' ? 'ES' : 'EN'}
         </button>
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] dark:hover:text-white hover:border-[#00ffff] dark:hover:border-white transition-colors"
         >
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           {theme === 'dark' ? (language === 'es' ? 'CLARO' : 'LIGHT') : (language === 'es' ? 'OSCURO' : 'DARK')}

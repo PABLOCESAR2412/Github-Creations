@@ -43,7 +43,7 @@ export const MarkdownPreview: React.FC = () => {
             <button
               onClick={() => setActiveTab('preview')}
               className={`flex items-center gap-1.5 px-3 py-1 font-bold uppercase transition-all ${
-                activeTab === 'preview' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
+                activeTab === 'preview' ? 'bg-[#00ffff] dark:bg-white text-black border border-[#00ffff] dark:border-white' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
               }`}
             >
               <Eye className="w-3.5 h-3.5" /> {language === 'es' ? 'PREVIA' : 'PREVIEW'}
@@ -51,7 +51,7 @@ export const MarkdownPreview: React.FC = () => {
             <button
               onClick={() => setActiveTab('code')}
               className={`flex items-center gap-1.5 px-3 py-1 font-bold uppercase transition-all ${
-                activeTab === 'code' ? 'bg-[#00ffff] text-black border border-[#00ffff]' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
+                activeTab === 'code' ? 'bg-[#00ffff] dark:bg-white text-black border border-[#00ffff] dark:border-white' : 'text-zinc-600 dark:text-zinc-500 hover:text-black dark:hover:text-white border border-transparent'
               }`}
             >
               <Code className="w-3.5 h-3.5" /> {language === 'es' ? 'CÓDIGO RAW' : 'RAW_MD'}
@@ -60,9 +60,9 @@ export const MarkdownPreview: React.FC = () => {
 
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-2 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] text-xs font-bold uppercase transition-colors"
+            className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-2 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] dark:hover:border-white text-xs font-bold uppercase transition-colors"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-[#00ffff]" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#00ffff] dark:text-white" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copied ? (language === 'es' ? '[ COPIADO ]' : '[ COPIED ]') : (language === 'es' ? '[ COPIAR ]' : '[ COPY ]')}</span>
           </button>
         </div>
@@ -128,7 +128,7 @@ export const MarkdownPreview: React.FC = () => {
               <textarea
                 readOnly
                 value={markdownOutput}
-                className="w-full h-full font-mono text-[11px] text-[#00ffff] bg-white dark:bg-black p-4 overflow-x-auto whitespace-pre-wrap leading-relaxed outline-none resize-none border-none focus:ring-1 focus:ring-[#00ffff]"
+                className="w-full h-full font-mono text-[11px] text-[#00ffff] dark:text-white bg-white dark:bg-black p-4 overflow-x-auto whitespace-pre-wrap leading-relaxed outline-none resize-none border-none focus:ring-1 focus:ring-[#00ffff] dark:focus:ring-white"
               />
             </motion.div>
           )}

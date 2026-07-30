@@ -32,7 +32,7 @@ export const ExportButtons: React.FC = () => {
   return (
     <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] flex items-center justify-between font-mono uppercase tracking-widest">
       <div className="flex items-center gap-4">
-        <div className="p-2.5 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
+        <div className="p-2.5 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] dark:border-white text-[#00ffff] dark:text-white">
           <FileText className="w-5 h-5" />
         </div>
         <div>
@@ -48,7 +48,7 @@ export const ExportButtons: React.FC = () => {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setPreset('full')}
-          className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-4 py-2.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-4 py-2.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] dark:hover:border-white transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
           <span>{language === 'es' ? '[ REINICIAR_DISEÑO ]' : '[ RESET_LAYOUT ]'}</span>
@@ -56,9 +56,9 @@ export const ExportButtons: React.FC = () => {
 
         <button
           onClick={handleDownload}
-          className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] transition-colors"
+          className="flex items-center gap-2 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] dark:hover:border-white transition-colors"
         >
-          <Download className="w-4 h-4 text-[#00ffff]" />
+          <Download className="w-4 h-4 text-[#00ffff] dark:text-white" />
           <span>[ DESCARGAR.MD ]</span>
         </button>
 
@@ -66,7 +66,7 @@ export const ExportButtons: React.FC = () => {
           onClick={handleCopy}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-2 bg-[#00ffff] hover:bg-white text-black font-bold text-xs px-6 py-2.5 transition-colors brutal-shadow"
+          className="flex items-center gap-2 bg-[#00ffff] dark:bg-white hover:bg-white text-black font-bold text-xs px-6 py-2.5 transition-colors brutal-shadow"
         >
           {copied ? (
             <>

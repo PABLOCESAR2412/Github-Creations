@@ -5,6 +5,9 @@
   :root {
     --electric: #00ffff;
   }
+  .dark {
+    --electric: #ffffff;
+  }
   
   html, body {
     @apply bg-[#f5f4ef] text-black dark:bg-black dark:text-white antialiased font-mono;
@@ -59,9 +62,19 @@
 .brutal-border:hover {
   border-color: var(--electric);
 }
+.dark .brutal-border:hover {
+  border-color: #ffffff;
+}
+
 .brutal-shadow {
   box-shadow: 4px 4px 0px 0px rgba(0, 255, 255, 0.2);
 }
 .brutal-shadow:hover {
   box-shadow: 4px 4px 0px 0px rgba(0, 255, 255, 0.8);
+}
+.dark .brutal-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.2);
+}
+.dark .brutal-shadow:hover {
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.8);
 }

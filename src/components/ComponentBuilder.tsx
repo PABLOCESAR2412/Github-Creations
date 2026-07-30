@@ -97,7 +97,7 @@ export const ComponentBuilder: React.FC = () => {
     <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] font-mono">
       <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-[#00ffff] text-black">
+          <div className="p-2 bg-[#00ffff] dark:bg-white text-black">
             <Layout className="w-5 h-5" />
           </div>
           <div>
@@ -134,7 +134,7 @@ export const ComponentBuilder: React.FC = () => {
               <button
                 key={type.id}
                 onClick={() => handleAdd(type.id as MarkdownComponent['type'])}
-                className="flex flex-col items-center gap-1.5 p-2 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 hover:border-[#00ffff] hover:text-[#00ffff] text-zinc-600 dark:text-zinc-400 transition-colors uppercase"
+                className="flex flex-col items-center gap-1.5 p-2 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 hover:border-[#00ffff] dark:hover:border-white hover:text-[#00ffff] dark:hover:text-white text-zinc-600 dark:text-zinc-400 transition-colors uppercase"
               >
                 {type.icon}
                 <span className="text-[10px] font-bold">{type.label}</span>
@@ -146,7 +146,7 @@ export const ComponentBuilder: React.FC = () => {
         <div>
           <h3 className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 mb-2 flex items-center justify-between uppercase tracking-widest">
             <span>&gt; {language === 'es' ? 'COMPONENTES_ACTIVOS' : 'ACTIVE_COMPONENTS'}</span>
-            <span className="bg-zinc-200 dark:bg-zinc-900 text-[#00ffff] px-1.5 py-0.5 font-bold">
+            <span className="bg-zinc-200 dark:bg-zinc-900 text-[#00ffff] dark:text-white px-1.5 py-0.5 font-bold">
               {components.length}
             </span>
           </h3>
@@ -162,8 +162,8 @@ export const ComponentBuilder: React.FC = () => {
                   className="group relative bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-3 space-y-3"
                 >
                   <div className="flex items-center justify-between mb-3 border-b border-zinc-300 dark:border-zinc-800 pb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00ffff] flex items-center gap-2">
-                      <span className="w-4 h-4 bg-zinc-200 dark:bg-zinc-900 border border-[#00ffff] text-[#00ffff] flex items-center justify-center font-mono">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00ffff] dark:text-white flex items-center gap-2">
+                      <span className="w-4 h-4 bg-zinc-200 dark:bg-zinc-900 border border-[#00ffff] dark:border-white text-[#00ffff] dark:text-white flex items-center justify-center font-mono">
                         {idx + 1}
                       </span>
                       [{comp.type}]
@@ -173,7 +173,7 @@ export const ComponentBuilder: React.FC = () => {
                       <button
                         onClick={() => idx > 0 && reorderComponents(idx, idx - 1)}
                         disabled={idx === 0}
-                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800"
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] dark:hover:text-white disabled:opacity-30 transition-colors bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800"
                         title={language === 'es' ? "Mover Arriba" : "Move Up"}
                       >
                         <ChevronUp className="w-3 h-3" />
@@ -181,7 +181,7 @@ export const ComponentBuilder: React.FC = () => {
                       <button
                         onClick={() => idx < components.length - 1 && reorderComponents(idx, idx + 1)}
                         disabled={idx === components.length - 1}
-                        className="p-1 text-zinc-600 hover:text-[#00ffff] disabled:opacity-30 transition-colors bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800"
+                        className="p-1 text-zinc-600 hover:text-[#00ffff] dark:hover:text-white disabled:opacity-30 transition-colors bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800"
                         title={language === 'es' ? "Mover Abajo" : "Move Down"}
                       >
                         <ChevronDown className="w-3 h-3" />
@@ -217,13 +217,13 @@ export const ComponentBuilder: React.FC = () => {
                 {(comp.type === 'stats' || comp.type === 'languages' || comp.type === 'streak' || comp.type === 'activity_graph') && (
                   <div className="flex items-center gap-4 bg-white dark:bg-zinc-950 p-2 border border-zinc-300 dark:border-zinc-800 text-xs">
                     <div className="flex items-center gap-2">
-                      <Palette className="w-4 h-4 text-[#00ffff]" />
+                      <Palette className="w-4 h-4 text-[#00ffff] dark:text-white" />
                       <span className="text-zinc-600 dark:text-zinc-400 uppercase tracking-widest text-[10px]">{language === 'es' ? '[ TEMA_DE_TARJETA ]' : '[ CARD_THEME ]'}</span>
                     </div>
                     <select
                       value={comp.theme || (comp.type === 'streak' ? 'soft-green' : comp.type === 'activity_graph' ? 'github-compact' : comp.type === 'languages' ? 'codeSTACKr' : 'github_dark')}
                       onChange={(e) => updateComponent(idx, { theme: e.target.value as any })}
-                      className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-black dark:text-white px-2 py-1 focus:outline-none focus:border-[#00ffff] uppercase"
+                      className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-black dark:text-white px-2 py-1 focus:outline-none focus:border-[#00ffff] dark:focus:border-white uppercase"
                     >
                       {THEMES.map((t) => (
                         <option key={t.id} value={t.id}>
@@ -250,7 +250,7 @@ export const ComponentBuilder: React.FC = () => {
                       <select
                         value={comp.badgeStyle || 'for-the-badge'}
                         onChange={(e) => updateComponent(idx, { badgeStyle: e.target.value as any })}
-                        className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] w-32"
+                        className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] dark:focus:border-white w-32"
                       >
                         <option value="flat">Flat</option>
                         <option value="flat-square">Flat Square</option>

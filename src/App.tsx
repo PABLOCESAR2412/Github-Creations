@@ -18,7 +18,7 @@ const Navigation = () => {
             whileHover={{ rotate: 90 }}
             transition={{ duration: 0.3 }}
           >
-            <FolderGit2 className="w-6 h-6 text-[#00ffff]" />
+            <FolderGit2 className="w-6 h-6 text-[#00ffff] dark:text-white" />
           </motion.div>
         </Link>
 
@@ -27,7 +27,7 @@ const Navigation = () => {
             <h1 className="text-xl font-bold text-black dark:text-white tracking-tighter">
               [ GITHUB_STATS ]
             </h1>
-            <span className="bg-[#00ffff] text-black px-2 py-0.5 font-bold text-xs">
+            <span className="bg-[#00ffff] dark:bg-white text-black px-2 py-0.5 font-bold text-xs">
               V1.0
             </span>
           </div>
@@ -41,13 +41,13 @@ const Navigation = () => {
         <nav className="flex items-center gap-4">
           <Link 
             to="/" 
-            className={`transition-colors hover:text-[#00ffff] outline-none ${location.pathname === '/' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : ''}`}
+            className={`transition-colors hover:text-[#00ffff] dark:hover:text-white outline-none ${location.pathname === '/' ? 'text-[#00ffff] dark:text-white border-b-2 border-[#00ffff] dark:border-white' : ''}`}
           >
             {language === 'es' ? '[ CONSTRUCTOR ]' : '[ BUILDER ]'}
           </Link>
           <Link 
             to="/githubadmin" 
-            className={`flex items-center gap-2 transition-colors hover:text-[#00ffff] outline-none ${location.pathname === '/githubadmin' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : ''}`}
+            className={`flex items-center gap-2 transition-colors hover:text-[#00ffff] dark:hover:text-white outline-none ${location.pathname === '/githubadmin' ? 'text-[#00ffff] dark:text-white border-b-2 border-[#00ffff] dark:border-white' : ''}`}
           >
             <ShieldAlert className="w-4 h-4" /> {language === 'es' ? '[ LIMITES_API ]' : '[ API_LIMITS ]'}
           </Link>
@@ -79,7 +79,7 @@ export function App() {
         <footer className="border-t border-zinc-300 dark:border-zinc-900 px-6 py-4 text-center text-xs text-zinc-600 flex items-center justify-between mt-auto bg-[#f5f4ef] dark:bg-black uppercase tracking-wider">
           <span>GITHUB_CREATIONS // 2026</span>
           <span className="flex items-center gap-2">
-            SYS <Code2 className="w-4 h-4 text-[#00ffff] inline" /> RUST
+            SYS <Code2 className="w-4 h-4 text-[#00ffff] dark:text-white inline" /> RUST
           </span>
         </footer>
       </div>

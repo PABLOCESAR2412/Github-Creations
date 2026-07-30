@@ -25,7 +25,7 @@ export const StatsInput: React.FC = () => {
     <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
+          <div className="p-2 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] dark:border-white text-[#00ffff] dark:text-white">
             <User className="w-5 h-5" />
           </div>
           <div className="font-mono uppercase">
@@ -40,7 +40,7 @@ export const StatsInput: React.FC = () => {
 
         <button
           onClick={() => setShowTokenInput(!showTokenInput)}
-          className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-[#00ffff] transition-colors bg-[#f5f4ef] dark:bg-black px-3 py-1.5 border border-zinc-300 dark:border-zinc-800 uppercase tracking-widest font-bold"
+          className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-[#00ffff] dark:hover:text-white transition-colors bg-[#f5f4ef] dark:bg-black px-3 py-1.5 border border-zinc-300 dark:border-zinc-800 uppercase tracking-widest font-bold"
           title={language === 'es' ? "Agrega un token personal para evitar límites" : "Add personal access token to prevent rate limits"}
         >
           <Key className="w-3.5 h-3.5" />
@@ -56,14 +56,14 @@ export const StatsInput: React.FC = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder={language === 'es' ? "INGRESA USUARIO DE GITHUB..." : "ENTER GITHUB USERNAME..."}
-            className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-[#00ffff] transition-colors placeholder:text-zinc-700 uppercase"
+            className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-[#00ffff] dark:focus:border-white transition-colors placeholder:text-zinc-700 uppercase"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading || !username.trim()}
-          className="flex items-center gap-2 bg-[#00ffff] text-black font-bold text-sm px-6 py-3 hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider brutal-shadow"
+          className="flex items-center gap-2 bg-[#00ffff] dark:bg-white text-black font-bold text-sm px-6 py-3 hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider brutal-shadow"
         >
           {loading ? (
             <>
@@ -95,7 +95,7 @@ export const StatsInput: React.FC = () => {
             value={token}
             onChange={(e) => setToken(e.target.value)}
             placeholder={language === 'es' ? "PEGA EL TOKEN AQUI..." : "PASTE TOKEN HERE..."}
-            className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-xs text-black dark:text-white px-3 py-2.5 focus:outline-none focus:border-[#00ffff]"
+            className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-xs text-black dark:text-white px-3 py-2.5 focus:outline-none focus:border-[#00ffff] dark:focus:border-white"
           />
         </motion.div>
       )}
@@ -133,7 +133,7 @@ export const StatsInput: React.FC = () => {
           </div>
           <button
             onClick={() => fetchStats(username)}
-            className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 hover:text-[#00ffff] transition-colors"
+            className="flex items-center gap-2 text-zinc-600 dark:text-zinc-500 hover:text-[#00ffff] dark:hover:text-white transition-colors"
           >
             <RefreshCw className="w-3 h-3" /> {language === 'es' ? '[ ACTUALIZAR ]' : '[ REFRESH ]'}
           </button>
