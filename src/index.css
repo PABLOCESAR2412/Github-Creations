@@ -78,3 +78,4 @@
 .dark .brutal-shadow:hover {
   box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.8);
 }
+.markdown-body img { display: inline-block !important; }
