@@ -21,7 +21,7 @@ export const MarkdownPreview: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-2xl brutal-shadow font-mono flex flex-col h-full min-h-[600px] space-y-4">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] font-mono flex flex-col h-full min-h-[600px] space-y-4">
       {/* Header Tabs */}
       <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-3">
         <div className="flex items-center gap-3">

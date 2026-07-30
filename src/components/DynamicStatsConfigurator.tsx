@@ -209,7 +209,7 @@ export const DynamicStatsConfigurator: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl space-y-6 brutal-shadow">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] space-y-6 font-mono">
       <div className="flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 pb-4">
         <div className="flex items-center gap-4">
           <div className="p-2.5 bg-[#00ffff] text-black border border-black dark:border-white">

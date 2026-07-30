@@ -92,7 +92,7 @@ updateStats();
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-2xl relative overflow-hidden brutal-shadow font-mono mt-6">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] relative overflow-hidden font-mono mt-6">
       <div className="flex flex-col md:flex-row gap-8 relative z-10">
         
         {/* Left Side: Instructions */}

@@ -30,7 +30,7 @@ export const ExportButtons: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-xl flex items-center justify-between font-mono uppercase tracking-widest">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-5 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] flex items-center justify-between font-mono uppercase tracking-widest">
       <div className="flex items-center gap-4">
         <div className="p-2.5 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
           <FileText className="w-5 h-5" />

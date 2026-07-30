@@ -22,7 +22,7 @@ export const StatsInput: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f5f4ef] dark:bg-black brutal-border p-6 shadow-xl space-y-5">
+    <div className="bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 p-6 shadow-[8px_8px_0px_0px_rgba(63,63,70,1)] space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-[#f5f4ef] dark:bg-black border border-[#00ffff] text-[#00ffff]">
