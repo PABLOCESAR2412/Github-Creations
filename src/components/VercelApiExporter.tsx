@@ -633,17 +633,30 @@ ${svgTemplate.trim()}
               <h3 className="text-sm font-bold text-black dark:text-white mb-4 flex items-center gap-2 uppercase tracking-widest">
                 <Layers className="w-4 h-4" /> [ DATA_POINTS ]
               </h3>
-              <div className="grid grid-cols-2 gap-2">
-                {Object.entries(dataPoints).map(([key, value]) => (
-                  <label key={key} className="flex items-center gap-2 p-2 border border-zinc-300 dark:border-zinc-800 cursor-pointer hover:border-zinc-500 transition-colors">
-                    <input 
-                      type="checkbox" 
-                      checked={value} 
-                      onChange={(e) => setDataPoints(prev => ({ ...prev, [key]: e.target.checked }))} 
-                      className="accent-black dark:accent-white"
-                    />
-                    <span className="text-xs uppercase font-bold text-black dark:text-white">{key}</span>
-                  </label>
+              <div className="space-y-6 max-h-[350px] overflow-y-auto pr-2">
+                {[
+                  { title: '1. Metadata (Identidad)', keys: ['bio', 'company', 'location'] },
+                  { title: '2. Red Social', keys: ['followers', 'following', 'sponsors'] },
+                  { title: '3. Repositorios', keys: ['repos', 'gists', 'stars', 'forks'] },
+                  { title: '4. Actividad', keys: ['commits', 'prs', 'streak', 'rank'] },
+                  { title: '5. Lenguajes', keys: ['languages'] }
+                ].map(group => (
+                  <div key={group.title} className="mb-4">
+                    <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 border-b border-zinc-200 dark:border-zinc-800 pb-1">{group.title}</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {group.keys.map(key => (
+                        <label key={key} className="flex items-center gap-2 p-2 border border-zinc-300 dark:border-zinc-800 cursor-pointer hover:border-zinc-500 transition-colors bg-[#f5f4ef] dark:bg-black">
+                          <input 
+                            type="checkbox" 
+                            checked={dataPoints[key as keyof typeof dataPoints]} 
+                            onChange={(e) => setDataPoints(prev => ({ ...prev, [key]: e.target.checked }))} 
+                            className="accent-black dark:accent-white"
+                          />
+                          <span className="text-[10px] uppercase font-bold text-black dark:text-white">{key}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
