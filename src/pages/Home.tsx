@@ -8,11 +8,11 @@ import { VercelApiExporter } from '../components/VercelApiExporter';
 import { GithubActionExporter } from '../components/GithubActionExporter';
 import { useMarkdownGenerator } from '../hooks/useMarkdownGenerator';
 import { useEditorStore } from '../store/editorStore';
-import { Moon, Sun, Globe } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 export const Home: React.FC = () => {
   useMarkdownGenerator();
-  const { theme, setTheme, language, setLanguage } = useEditorStore();
+  const { language, setLanguage } = useEditorStore();
 
   return (
     <main className="flex-1 p-6 grid grid-cols-12 gap-6 max-w-[1700px] mx-auto w-full">
@@ -24,13 +24,6 @@ export const Home: React.FC = () => {
         >
           <Globe className="w-4 h-4" />
           {language === 'en' ? 'ES' : 'EN'}
-        </button>
-        <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="flex items-center gap-2 px-3 py-1.5 bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-800 text-xs font-bold uppercase hover:text-[#00ffff] dark:hover:text-white hover:border-[#00ffff] dark:hover:border-white transition-colors"
-        >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          {theme === 'dark' ? (language === 'es' ? 'CLARO' : 'LIGHT') : (language === 'es' ? 'OSCURO' : 'DARK')}
         </button>
       </div>
 
