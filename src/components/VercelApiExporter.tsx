@@ -357,56 +357,112 @@ export const VercelApiExporter: React.FC = () => {
         </g>
       `;
     } else if (layout === 'radar-chart') {
+      const radarStats = activeStats.length >= 3 ? activeStats.slice(0, 5) : [
+        {label: 'Frontend', value: 80}, {label: 'Backend', value: 60}, {label: 'DevOps', value: 90}, {label: 'IoT', value: 40}, {label: 'Mobile', value: 70}
+      ];
+      const maxV = Math.max(...radarStats.map(s => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 1 : s.value;
+         return Number(v) || 1;
+      }), 10);
+      
+      const numPoints = radarStats.length;
+      const radius = 60;
+      
+      const getPoint = (i: number, val: number) => {
+        const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+        const r = (val / maxV) * radius;
+        return `${Math.cos(angle) * r},${Math.sin(angle) * r}`;
+      };
+      
+      const outerPoly = radarStats.map((_, i) => getPoint(i, maxV)).join(' ');
+      const midPoly = radarStats.map((_, i) => getPoint(i, maxV * 0.5)).join(' ');
+      const dataPoly = radarStats.map((s, i) => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         return getPoint(i, Number(v) || 0);
+      }).join(' ');
+      
+      const labels = radarStats.map((s, i) => {
+         const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+         const r = radius + 15;
+         const x = Math.cos(angle) * r;
+         const y = Math.sin(angle) * r;
+         let anchor = 'middle';
+         if (x > 10) anchor = 'start';
+         if (x < -10) anchor = 'end';
+         return `<text x="${x}" y="${y+3}" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="${anchor}">${s.label}</text>`;
+      }).join('');
+      
+      const spokes = radarStats.map((_, i) => {
+         const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+         return `<line x1="0" y1="0" x2="${Math.cos(angle) * radius}" y2="${Math.sin(angle) * radius}" stroke="${borderColor}" stroke-width="1" />`;
+      }).join('');
+
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
         <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Tech Radar</text>
-        <g transform="translate(200, 110)">
+        <g transform="translate(200, 120)">
           <!-- Web grid -->
-          <polygon points="0,-70 66,-21 41,56 -41,56 -66,-21" fill="none" stroke="${borderColor}" stroke-width="1" />
-          <polygon points="0,-35 33,-10 20,28 -20,28 -33,-10" fill="none" stroke="${borderColor}" stroke-width="1" />
-          <line x1="0" y1="0" x2="0" y2="-70" stroke="${borderColor}" stroke-width="1" />
-          <line x1="0" y1="0" x2="66" y2="-21" stroke="${borderColor}" stroke-width="1" />
-          <line x1="0" y1="0" x2="41" y2="56" stroke="${borderColor}" stroke-width="1" />
-          <line x1="0" y1="0" x2="-41" y2="56" stroke="${borderColor}" stroke-width="1" />
-          <line x1="0" y1="0" x2="-66" y2="-21" stroke="${borderColor}" stroke-width="1" />
+          <polygon points="${outerPoly}" fill="none" stroke="${borderColor}" stroke-width="1" />
+          <polygon points="${midPoly}" fill="none" stroke="${borderColor}" stroke-width="1" />
+          ${spokes}
           <!-- Animated Fill -->
           <style>
             @keyframes pulseRadar { 0% { opacity: 0.3; transform: scale(0.95); } 50% { opacity: 0.7; transform: scale(1.05); } 100% { opacity: 0.3; transform: scale(0.95); } }
             .radar-blob { animation: pulseRadar 3s infinite ease-in-out; transform-origin: center; }
           </style>
-          <polygon points="0,-60 50,-10 20,40 -30,50 -50,-15" fill="${accentColor}" class="radar-blob" stroke="${accentColor}" stroke-width="2" />
+          <polygon points="${dataPoly}" fill="${accentColor}" class="radar-blob" stroke="${accentColor}" stroke-width="2" />
           <!-- Labels -->
-          <text x="0" y="-78" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="middle">Frontend</text>
-          <text x="75" y="-21" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="start">Backend</text>
-          <text x="50" y="66" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="start">DevOps</text>
-          <text x="-50" y="66" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="end">IoT</text>
-          <text x="-75" y="-21" font-family="monospace" font-size="9" fill="${textColor}" text-anchor="end">Management</text>
+          ${labels}
         </g>
       `;
     } else if (layout === 'donut-chart') {
+      const donutStats = activeStats.length > 0 ? activeStats.slice(0, 4) : [{label: 'Empty', value: 1}];
+      const total = donutStats.reduce((acc, s) => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         return acc + (Number(v) || 1);
+      }, 0);
+      
+      const circ = 2 * Math.PI * 40;
+      let cumOffset = 0;
+      
+      const colors = [accentColor, '#00ffff', '#ff00ff', '#ffbd2e'];
+      
+      const segments = donutStats.map((s, i) => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         v = Number(v) || 1;
+         const pct = v / total;
+         const dash = pct * circ;
+         const offset = -cumOffset;
+         cumOffset += dash;
+         return `
+           <circle cx="0" cy="0" r="40" fill="none" stroke="${colors[i%colors.length]}" stroke-width="20" stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${offset}" class="donut-segment" transform="rotate(-90)">
+              <animate attributeName="stroke-dasharray" from="0 ${circ}" to="${dash} ${circ}" dur="1s" fill="freeze" />
+           </circle>
+         `;
+      }).join('');
+      
+      const legend = donutStats.map((s, i) => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         v = Number(v) || 1;
+         const pct = Math.round((v / total) * 100);
+         return `
+          <rect x="0" y="${i * 20}" width="10" height="10" fill="${colors[i%colors.length]}" />
+          <text x="20" y="${i * 20 + 9}" font-family="monospace" font-size="10" fill="${textColor}">${s.label} (${pct}%)</text>
+         `;
+      }).join('');
+
       svgInner = `
-        <style>
-          @keyframes spinDonut { from { stroke-dashoffset: 250; } to { stroke-dashoffset: 0; } }
-          .donut-segment { animation: spinDonut 1.5s ease-out forwards; }
-        </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Language Distribution</text>
-        <g transform="translate(100, 110)">
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Donut Breakdown</text>
+        <g transform="translate(100, 120)">
           <!-- Donut -->
           <circle cx="0" cy="0" r="40" fill="none" stroke="${borderColor}" stroke-width="20" opacity="0.2" />
-          <circle cx="0" cy="0" r="40" fill="none" stroke="${accentColor}" stroke-width="20" stroke-dasharray="100 250" class="donut-segment" transform="rotate(-90)" />
-          <circle cx="0" cy="0" r="40" fill="none" stroke="#00ffff" stroke-width="20" stroke-dasharray="80 250" stroke-dashoffset="-100" class="donut-segment" transform="rotate(-90)" />
-          <circle cx="0" cy="0" r="40" fill="none" stroke="#ff00ff" stroke-width="20" stroke-dasharray="70 250" stroke-dashoffset="-180" class="donut-segment" transform="rotate(-90)" />
+          ${segments}
           <!-- Center Text -->
           <text x="0" y="5" font-family="sans-serif" font-size="14" font-weight="bold" fill="${titleColor}" text-anchor="middle">100%</text>
         </g>
-        <g transform="translate(200, 80)">
-          <rect x="0" y="0" width="10" height="10" fill="${accentColor}" />
-          <text x="20" y="9" font-family="monospace" font-size="10" fill="${textColor}">TypeScript (40%)</text>
-          <rect x="0" y="20" width="10" height="10" fill="#00ffff" />
-          <text x="20" y="29" font-family="monospace" font-size="10" fill="${textColor}">Python (32%)</text>
-          <rect x="0" y="40" width="10" height="10" fill="#ff00ff" />
-          <text x="20" y="49" font-family="monospace" font-size="10" fill="${textColor}">Rust (28%)</text>
+        <g transform="translate(200, 90)">
+          ${legend}
         </g>
       `;
     } else if (layout === 'terminal-live') {
@@ -435,13 +491,44 @@ export const VercelApiExporter: React.FC = () => {
         </g>
       `;
     } else if (layout === 'smooth-area') {
+      const points = activeStats.length >= 2 ? activeStats : [{label:'A', value:10}, {label:'B', value:50}, {label:'C', value:30}, {label:'D', value:90}];
+      const maxV = Math.max(...points.map(s => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         return Number(v) || 1;
+      }), 10);
+      
+      const width = 400;
+      const height = 100;
+      
+      // Generate spline points
+      const mapped = points.map((s, i) => {
+         let v = typeof s.value === 'string' ? parseFloat(s.value.replace(/[^0-9.]/g, '')) || 0 : s.value;
+         v = Number(v) || 0;
+         const x = (i / (points.length - 1)) * width;
+         const y = height - ((v / maxV) * height);
+         return {x, y};
+      });
+      
+      // Construct smooth path using bezier curves
+      let d = `M${mapped[0].x},${mapped[0].y}`;
+      for (let i = 1; i < mapped.length; i++) {
+        const p0 = mapped[i - 1];
+        const p1 = mapped[i];
+        const cpX = (p0.x + p1.x) / 2;
+        d += ` C${cpX},${p0.y} ${cpX},${p1.y} ${p1.x},${p1.y}`;
+      }
+      
+      const fillD = `${d} L${width},120 L0,120 Z`;
+      
+      const circles = mapped.map(p => `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />`).join('');
+
       svgInner = `
         <style>
           @keyframes slideIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
           .area-anim { animation: slideIn 2s ease-out forwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Activity Curve</text>
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Dynamic Curve</text>
         <g transform="translate(0, 50)" class="area-anim">
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -449,50 +536,64 @@ export const VercelApiExporter: React.FC = () => {
               <stop offset="100%" stop-color="${accentColor}" stop-opacity="0.0"/>
             </linearGradient>
           </defs>
-          <!-- Smooth Bezier Curve Path -->
-          <path d="M0,120 C50,120 80,40 120,60 C160,80 200,10 250,50 C300,90 350,20 400,30 L400,150 L0,150 Z" fill="url(#areaGrad)" />
-          <path d="M0,120 C50,120 80,40 120,60 C160,80 200,10 250,50 C300,90 350,20 400,30" fill="none" stroke="${accentColor}" stroke-width="3" />
-          <circle cx="120" cy="60" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
-          <circle cx="250" cy="50" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
-          <circle cx="400" cy="30" r="4" fill="${titleColor}" stroke="${bgColor}" stroke-width="2" />
+          <path d="${fillD}" fill="url(#areaGrad)" />
+          <path d="${d}" fill="none" stroke="${accentColor}" stroke-width="3" />
+          ${circles}
         </g>
         <g transform="translate(20, 180)">
-          ${activeStats.slice(0,4).map((stat, i) => `
+          ${points.slice(0,4).map((stat, i) => `
             <text x="${i * 90}" y="0" font-family="sans-serif" font-size="10" fill="${textColor}">${stat.label}: <tspan font-weight="bold" fill="${titleColor}">${stat.value}</tspan></text>
           `).join('')}
         </g>
       `;
     } else if (layout === 'isometric-city') {
+      // Generate a 52x7 full year grid deterministically based on mockCommits length
+      const blocks = [];
+      const cols = 35; // using 35 cols to fit properly in 400px
+      const rows = 7;
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          // pseudo random height based on coordinates to make it look like a real commit graph
+          const randomH = Math.sin(c*2.4 + r) * Math.cos(c*1.1) * 30;
+          let h = randomH > 5 ? randomH : 2; 
+          if (c % 5 === 0 && r % 3 === 0) h += 40; // spikes
+          
+          blocks.push({
+            x: c,
+            y: r,
+            h: Math.abs(h),
+            d: (c + r) * 0.02
+          });
+        }
+      }
+
       svgInner = `
         <style>
-          @keyframes riseUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-          .iso-block { animation: riseUp 1s ease-out backwards; }
+          @keyframes riseUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+          .iso-block { animation: riseUp 0.5s ease-out backwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Isometric Skyline</text>
-        <g transform="translate(200, 150)">
-          <!-- We will draw a 3x3 isometric grid for the city -->
-          ${[
-            {x: 0, y: 0, h: 40, d: 0.1}, {x: 1, y: 0, h: 70, d: 0.2}, {x: 2, y: 0, h: 30, d: 0.3},
-            {x: 0, y: 1, h: 90, d: 0.2}, {x: 1, y: 1, h: 50, d: 0.3}, {x: 2, y: 1, h: 80, d: 0.4},
-            {x: 0, y: 2, h: 20, d: 0.3}, {x: 1, y: 2, h: 100, d: 0.4}, {x: 2, y: 2, h: 60, d: 0.5}
-          ].map((block) => {
-            const bw = 24;
-            const bh = 12;
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Full Year Contribution City</text>
+        <g transform="translate(200, 50)">
+          ${blocks.map((block) => {
+            const bw = 4;
+            const bh = 2;
             const ix = (block.x - block.y) * bw;
             const iy = (block.x + block.y) * bh;
             const h = block.h;
+            // hide tiny blocks to make it look sparse like a real graph
+            if (h < 4) return '';
             return `
               <g transform="translate(${ix}, ${iy})" class="iso-block" style="animation-delay: ${block.d}s">
-                <polygon points="0,0 -${bw},-${bh} -${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.6" stroke="${bgColor}" stroke-width="0.5" />
-                <polygon points="0,0 ${bw},-${bh} ${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.4" stroke="${bgColor}" stroke-width="0.5" />
-                <polygon points="0,-${h} -${bw},-${bh+h} 0,-${bh*2+h} ${bw},-${bh+h}" fill="${accentColor}" opacity="0.8" stroke="${bgColor}" stroke-width="0.5" />
+                <polygon points="0,0 -${bw},-${bh} -${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.6" stroke="${bgColor}" stroke-width="0.2" />
+                <polygon points="0,0 ${bw},-${bh} ${bw},-${bh+h} 0,-${h}" fill="${accentColor}" opacity="0.4" stroke="${bgColor}" stroke-width="0.2" />
+                <polygon points="0,-${h} -${bw},-${bh+h} 0,-${bh*2+h} ${bw},-${bh+h}" fill="${accentColor}" opacity="0.8" stroke="${bgColor}" stroke-width="0.2" />
               </g>
             `;
           }).join('')}
         </g>
         <g transform="translate(20, 180)">
-           <text x="0" y="0" font-family="monospace" font-size="10" fill="${textColor}">Total Commits (365 days): <tspan font-weight="bold" fill="${titleColor}">1,420</tspan></text>
+           <text x="0" y="0" font-family="monospace" font-size="10" fill="${textColor}">365 Days Activity Skyline (Total: <tspan font-weight="bold" fill="${titleColor}">${activeStats.find(s => s.label === 'Commits')?.value || 1420}</tspan>)</text>
         </g>
       `;
     }
@@ -633,7 +734,8 @@ ${svgTemplate.trim()}
               <h3 className="text-sm font-bold text-black dark:text-white mb-4 flex items-center gap-2 uppercase tracking-widest">
                 <Layers className="w-4 h-4" /> [ DATA_POINTS ]
               </h3>
-              <div className="space-y-6 max-h-[350px] overflow-y-auto pr-2">
+              <div className={`space-y-6 max-h-[350px] overflow-y-auto pr-2 ${layout === 'isometric-city' ? 'opacity-50 pointer-events-none' : ''}`}>
+                {layout === 'isometric-city' && <div className="text-xs text-red-500 font-bold mb-2">⚠ Data points are fixed for Isometric City.</div>}
                 {[
                   { title: '1. Metadata (Identidad)', keys: ['bio', 'company', 'location'] },
                   { title: '2. Red Social', keys: ['followers', 'following', 'sponsors'] },
