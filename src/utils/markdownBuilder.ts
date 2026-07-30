@@ -219,6 +219,9 @@ export const buildMarkdown = (
           }
         }
 
+        case 'raw_markdown':
+          return `${comp.content || ''}\n`;
+
         default:
           return '';
       }

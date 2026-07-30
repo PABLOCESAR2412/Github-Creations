@@ -33,7 +33,7 @@ export interface LanguageStat {
 
 export interface MarkdownComponent {
   id: string;
-  type: 'title' | 'subtitle' | 'stats' | 'languages' | 'divider' | 'spacer' | 'table' | 'repos' | 'badges' | 'streak' | 'activity_graph' | 'visitors' | 'custom_badges' | 'socials' | 'dynamic_stats';
+  type: 'title' | 'subtitle' | 'stats' | 'languages' | 'divider' | 'spacer' | 'table' | 'repos' | 'badges' | 'streak' | 'activity_graph' | 'visitors' | 'custom_badges' | 'socials' | 'dynamic_stats' | 'raw_markdown';
   content?: string;
   level?: number;
   height?: number; // for spacer

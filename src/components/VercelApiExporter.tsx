@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useEditorStore } from '../store/editorStore';
-import { Copy, Check, Terminal, Triangle, Layers, LayoutTemplate, Palette } from 'lucide-react';
+import { Copy, Check, Terminal, Triangle, Layers, LayoutTemplate, Palette, Plus } from 'lucide-react';
 
 export const VercelApiExporter: React.FC = () => {
-  const { username, stats, language } = useEditorStore();
+  const { username, stats, language, addComponent } = useEditorStore();
   const [copiedCode, setCopiedCode] = useState(false);
   
   // Customization State
@@ -660,6 +660,15 @@ ${svgTemplate.trim()}
 `;
   };
 
+  const handleAdd = () => {
+    addComponent({
+      type: 'raw_markdown',
+      content: `\n### 🚀 Custom Vercel API Stats\n<!-- Remember to replace the URL with your actual deployed Vercel URL -->\n<p align="center">\n  <img src="https://YOUR-APP-URL.vercel.app/api/stats?username=${username}" alt="Custom Vercel Stats" />\n</p>\n`
+    });
+    setCopiedCode(true); // just reuse this state to show checkmark
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
   const handleCopy = () => {
     navigator.clipboard.writeText(generateApiCode());
     setCopiedCode(true);
@@ -784,13 +793,22 @@ ${svgTemplate.trim()}
                   <Terminal className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
                   <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400">&gt; API/STATS.JS</span>
                 </div>
-                <button
-                  onClick={handleCopy}
-                  className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white text-[10px] font-bold uppercase transition-colors"
-                >
-                  {copiedCode ? <Check className="w-3 h-3 text-black dark:text-white" /> : <Copy className="w-3 h-3" />}
-                  {copiedCode ? (language === 'es' ? 'COPIADO' : 'COPIED') : (language === 'es' ? 'COPIAR SCRIPT' : 'COPY SCRIPT')}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleAdd}
+                    className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 hover:border-[#00ffff] dark:hover:border-white text-[10px] font-bold uppercase transition-colors"
+                  >
+                    <Plus className="w-3 h-3" />
+                    {language === 'es' ? 'AÑADIR A PREVIEW' : 'ADD TO PREVIEW'}
+                  </button>
+                  <button
+                    onClick={handleCopy}
+                    className="flex items-center gap-1.5 bg-[#f5f4ef] dark:bg-black hover:bg-zinc-200 dark:hover:bg-zinc-900 text-black dark:text-white px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white text-[10px] font-bold uppercase transition-colors"
+                  >
+                    {copiedCode ? <Check className="w-3 h-3 text-black dark:text-white" /> : <Copy className="w-3 h-3" />}
+                    {copiedCode ? (language === 'es' ? 'COPIADO' : 'COPIED') : (language === 'es' ? 'COPIAR SCRIPT' : 'COPY SCRIPT')}
+                  </button>
+                </div>
               </div>
 
               <div className="border-b border-zinc-300 dark:border-zinc-800 bg-[#f5f4ef] dark:bg-black p-3 text-[10px] text-zinc-600 dark:text-zinc-400 uppercase leading-relaxed">
