@@ -160,6 +160,54 @@ export const buildMarkdown = (
           return tableMd + '\n';
         }
 
+        case 'dynamic_stats': {
+          const layout = comp.layout || 'neon-cluster';
+          const badgeStyle = comp.badgeStyle || 'for-the-badge';
+          const badgeDirection = comp.badgeDirection || 'row';
+          const badgeSpacing = comp.badgeSpacing || 'compact';
+          const lColor = (comp.labelColor || '#1e293b').replace('#', '');
+          const vColor = (comp.valueColor || '#0ea5e9').replace('#', '');
+          const logoColor = (comp.logoColor || '#ffffff').replace('#', '');
+
+          const selectedStats = comp.selectedStats || { followers: true, following: true, repos: true, gists: true, stars: true };
+
+          const availableStats = [
+            { id: 'followers', label: 'Followers', icon: 'users', query: '', url: `https://img.shields.io/github/followers/${username}`, isNative: true },
+            { id: 'following', label: 'Following', icon: 'user-plus', query: '$.following', url: `https://api.github.com/users/${username}` },
+            { id: 'repos', label: 'Public Repos', icon: 'book', query: '$.public_repos', url: `https://api.github.com/users/${username}` },
+            { id: 'gists', label: 'Public Gists', icon: 'code', query: '$.public_gists', url: `https://api.github.com/users/${username}` },
+            { id: 'stars', label: 'Total Stars', icon: 'star', query: '', url: `https://img.shields.io/github/stars/${username}`, isNative: true },
+          ];
+
+          const activeStats = availableStats.filter(s => selectedStats[s.id as keyof typeof selectedStats]);
+
+          if (layout === 'neon-cluster') {
+            const separator = badgeDirection === 'row' 
+              ? (badgeSpacing === 'spaced' ? ' &nbsp;&nbsp; ' : ' ') 
+              : (badgeSpacing === 'spaced' ? '<br/><br/>\n' : '<br/>\n');
+              
+            const badges = activeStats.map(s => {
+              const badgeUrl = s.isNative 
+                ? `${s.url}?label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`
+                : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              return `<a href="https://github.com/${username}"><img src="${badgeUrl}" alt="${s.label}" /></a>`;
+            }).join(separator);
+            
+            const alignStr = comp.align && comp.align !== 'left' ? ` align="${comp.align}"` : '';
+            return `<p${alignStr}>\n${badges}\n</p>\n`;
+          } else {
+            // Data Matrix (Markdown Table)
+            let table = `| Metric | Count |\n| :--- | :--- |\n`;
+            activeStats.forEach(s => {
+              const badgeUrl = s.isNative 
+                ? `${s.url}?label=%20&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`
+                : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=%20&style=${badgeStyle}&color=${vColor}&labelColor=${lColor}&logo=${s.icon}&logoColor=${logoColor}`;
+              table += `| **${s.label}** | <img src="${badgeUrl}" alt="${s.label}" /> |\n`;
+            });
+            return `\n${table}\n`;
+          }
+        }
+
         default:
           return '';
       }

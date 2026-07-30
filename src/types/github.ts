@@ -33,7 +33,7 @@ export interface LanguageStat {
 
 export interface MarkdownComponent {
   id: string;
-  type: 'title' | 'subtitle' | 'stats' | 'languages' | 'divider' | 'spacer' | 'table' | 'repos' | 'badges' | 'streak' | 'activity_graph' | 'visitors' | 'custom_badges' | 'socials';
+  type: 'title' | 'subtitle' | 'stats' | 'languages' | 'divider' | 'spacer' | 'table' | 'repos' | 'badges' | 'streak' | 'activity_graph' | 'visitors' | 'custom_badges' | 'socials' | 'dynamic_stats';
   content?: string;
   level?: number;
   height?: number; // for spacer
@@ -47,4 +47,14 @@ export interface MarkdownComponent {
   align?: 'left' | 'center' | 'right';
   selectedRepos?: string[];
   customBadges?: Array<{ label: string; message: string; color: string; logo?: string }>;
+  layout?: 'neon-cluster' | 'data-matrix';
+  badgeDirection?: 'row' | 'column';
+  badgeSpacing?: 'compact' | 'spaced';
+  selectedStats?: {
+    followers: boolean;
+    following: boolean;
+    repos: boolean;
+    gists: boolean;
+    stars: boolean;
+  };
 }

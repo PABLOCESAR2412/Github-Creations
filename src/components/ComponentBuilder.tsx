@@ -76,6 +76,19 @@ export const ComponentBuilder: React.FC = () => {
       case 'spacer':
         addComponent({ type: 'spacer', height: 20 });
         break;
+      case 'dynamic_stats':
+        addComponent({ 
+          type: 'dynamic_stats', 
+          layout: 'neon-cluster',
+          badgeStyle: 'for-the-badge',
+          badgeDirection: 'row',
+          badgeSpacing: 'compact',
+          labelColor: '#1e293b',
+          valueColor: '#0ea5e9',
+          logoColor: '#ffffff',
+          selectedStats: { followers: true, following: true, repos: true, gists: true, stars: true }
+        });
+        break;
     }
   };
 
@@ -91,6 +104,7 @@ export const ComponentBuilder: React.FC = () => {
     { id: 'repos', label: 'REPOS', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'table', label: language === 'es' ? 'TABLA' : 'TABLE', icon: <TableIcon className="w-4 h-4" /> },
     { id: 'divider', label: language === 'es' ? 'SEPARADOR' : 'DIVIDER', icon: <Plus className="w-4 h-4" /> },
+    { id: 'dynamic_stats', label: language === 'es' ? 'STATS CUSTOM' : 'CUSTOM STATS', icon: <Shield className="w-4 h-4" /> },
   ] as const;
 
   return (
@@ -309,6 +323,116 @@ export const ComponentBuilder: React.FC = () => {
                 {comp.type === 'table' && (
                   <div className="bg-[#f5f4ef] dark:bg-slate-900/60 p-3 rounded-lg border border-zinc-300 dark:border-slate-800 text-xs text-zinc-600 dark:text-slate-400">
                     {language === 'es' ? 'Muestra las barras de porcentaje de los lenguajes.' : 'Displays language distribution percentage bars in Markdown table format.'}
+                  </div>
+                )}
+
+                {comp.type === 'dynamic_stats' && (
+                  <div className="bg-[#f5f4ef] dark:bg-slate-900/60 p-3 rounded-lg border border-zinc-300 dark:border-slate-800 text-xs space-y-4">
+                    <div className="grid grid-cols-2 gap-4 mb-2">
+                      <div>
+                        <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-1">Layout</span>
+                        <select
+                          value={comp.layout || 'neon-cluster'}
+                          onChange={(e) => updateComponent(idx, { layout: e.target.value as any })}
+                          className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] dark:focus:border-white w-full uppercase text-[10px]"
+                        >
+                          <option value="neon-cluster">Neon Cluster</option>
+                          <option value="data-matrix">Data Matrix</option>
+                        </select>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-1">Badge Style</span>
+                        <select
+                          value={comp.badgeStyle || 'for-the-badge'}
+                          onChange={(e) => updateComponent(idx, { badgeStyle: e.target.value as any })}
+                          className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] dark:focus:border-white w-full uppercase text-[10px]"
+                        >
+                          <option value="flat">Flat</option>
+                          <option value="flat-square">Flat Square</option>
+                          <option value="for-the-badge">For the Badge</option>
+                          <option value="plastic">Plastic</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {comp.layout === 'neon-cluster' && (
+                      <div className="grid grid-cols-2 gap-4 mb-2">
+                        <div>
+                          <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-1">Direction</span>
+                          <select
+                            value={comp.badgeDirection || 'row'}
+                            onChange={(e) => updateComponent(idx, { badgeDirection: e.target.value as any })}
+                            className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] dark:focus:border-white w-full uppercase text-[10px]"
+                          >
+                            <option value="row">ROW (LINEAL)</option>
+                            <option value="column">COLUMN (APILADO)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-1">Spacing</span>
+                          <select
+                            value={comp.badgeSpacing || 'compact'}
+                            onChange={(e) => updateComponent(idx, { badgeSpacing: e.target.value as any })}
+                            className="bg-white dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 text-black dark:text-slate-200 rounded px-2.5 py-1 focus:border-[#00ffff] dark:focus:border-white w-full uppercase text-[10px]"
+                          >
+                            <option value="compact">COMPACTO</option>
+                            <option value="spaced">ESPACIADO</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between gap-4 border-t border-zinc-300 dark:border-zinc-800 pt-3">
+                      <div className="flex flex-col items-center gap-1 flex-1">
+                        <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase">{language === 'es' ? 'Fondo/Valor' : 'Value Bg'}</span>
+                        <input
+                          type="color"
+                          value={comp.valueColor || '#0ea5e9'}
+                          onChange={(e) => updateComponent(idx, { valueColor: e.target.value })}
+                          className="w-full h-6 cursor-pointer bg-transparent border-0 p-0"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center gap-1 flex-1">
+                        <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase">{language === 'es' ? 'Etiqueta' : 'Label'}</span>
+                        <input
+                          type="color"
+                          value={comp.labelColor || '#1e293b'}
+                          onChange={(e) => updateComponent(idx, { labelColor: e.target.value })}
+                          className="w-full h-6 cursor-pointer bg-transparent border-0 p-0"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center gap-1 flex-1">
+                        <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase">Logo</span>
+                        <input
+                          type="color"
+                          value={comp.logoColor || '#ffffff'}
+                          onChange={(e) => updateComponent(idx, { logoColor: e.target.value })}
+                          className="w-full h-6 cursor-pointer bg-transparent border-0 p-0"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="border-t border-zinc-300 dark:border-zinc-800 pt-3">
+                      <span className="text-[10px] text-zinc-600 dark:text-slate-400 uppercase block mb-2">Data Points</span>
+                      <div className="flex flex-wrap gap-2">
+                        {['followers', 'following', 'repos', 'gists', 'stars'].map(statKey => (
+                          <label key={statKey} className="flex items-center gap-1">
+                            <input 
+                              type="checkbox" 
+                              checked={comp.selectedStats ? comp.selectedStats[statKey as keyof typeof comp.selectedStats] : true}
+                              onChange={(e) => updateComponent(idx, { 
+                                selectedStats: { 
+                                  ...(comp.selectedStats || { followers:true, following:true, repos:true, gists:true, stars:true }),
+                                  [statKey]: e.target.checked
+                                } 
+                              })}
+                              className="accent-black dark:accent-white"
+                            />
+                            <span className="text-[10px] uppercase">{statKey}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </motion.div>
