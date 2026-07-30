@@ -129,7 +129,7 @@ export const VercelApiExporter: React.FC = () => {
     } else if (layout === 'minimal') {
       svgInner = `
         <rect width="400" height="100" fill="${bgColor}" rx="8" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="${titleColor}">${nameVal}</text>
+        <text x="20" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="${titleColor}">${nameVal}</text>
         <line x1="20" y1="45" x2="380" y2="45" stroke="${accentColor}" stroke-width="2" />
         
         <g transform="translate(20, 75)">
@@ -187,7 +187,7 @@ export const VercelApiExporter: React.FC = () => {
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" stroke="${borderColor}" stroke-width="4" />
         <rect x="4" y="4" width="392" height="192" fill="none" stroke="${accentColor}" stroke-width="1" stroke-dasharray="2 2" />
-        <text x="20" y="30" font-family="monospace" font-size="14" font-weight="bold" fill="${titleColor}">C:\\USERS\${nameVal.toUpperCase()}&gt; STATS.EXE</text>
+        <text x="20" y="20" font-family="monospace" font-size="14" font-weight="bold" fill="${titleColor}">C:\\USERS\${nameVal.toUpperCase()}&gt; STATS.EXE</text>
         <g transform="translate(20, 70)">
           ${activeStats.map((stat, i) => `
             <text x="0" y="${i * 25}" font-family="monospace" font-size="14" fill="${textColor}">[${stat.label.toUpperCase()}]</text>
@@ -276,7 +276,7 @@ export const VercelApiExporter: React.FC = () => {
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" />
         <rect x="10" y="10" width="380" height="40" fill="${borderColor}" rx="6" />
-        <text x="20" y="35" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Overview</text>
+        <text x="20" y="22" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Overview</text>
         <g transform="translate(10, 60)">
           ${activeStats.map((stat, i) => {
             const width = activeStats.length > 2 ? 185 : 380;
@@ -300,7 +300,7 @@ export const VercelApiExporter: React.FC = () => {
           .bar-anim { transform-origin: bottom; animation: grow 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Metrics</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Metrics</text>
         <g transform="translate(40, 160)">
           ${activeStats.map((stat, i) => {
             const width = 320 / activeStats.length;
@@ -334,7 +334,7 @@ export const VercelApiExporter: React.FC = () => {
           .ring-anim { animation: drawRing 2s cubic-bezier(0.1, 0.7, 0.1, 1) forwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="16" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Activity</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Activity</text>
         <g transform="translate(200, 110)">
           ${activeStats.map((stat, i) => {
             const radius = 80 - (i * (80 / Math.max(activeStats.length, 1)));
@@ -399,7 +399,7 @@ export const VercelApiExporter: React.FC = () => {
 
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Tech Radar</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Tech Radar</text>
         <g transform="translate(200, 120)">
           <!-- Web grid -->
           <polygon points="${outerPoly}" fill="none" stroke="${borderColor}" stroke-width="1" />
@@ -453,7 +453,7 @@ export const VercelApiExporter: React.FC = () => {
 
       svgInner = `
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Donut Breakdown</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Donut Breakdown</text>
         <g transform="translate(100, 120)">
           <!-- Donut -->
           <circle cx="0" cy="0" r="40" fill="none" stroke="${borderColor}" stroke-width="20" opacity="0.2" />
@@ -528,7 +528,7 @@ export const VercelApiExporter: React.FC = () => {
           .area-anim { animation: slideIn 2s ease-out forwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Dynamic Curve</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Dynamic Curve</text>
         <g transform="translate(0, 50)" class="area-anim">
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -573,7 +573,7 @@ export const VercelApiExporter: React.FC = () => {
           .iso-block { animation: riseUp 0.5s ease-out backwards; }
         </style>
         <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
-        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Full Year Contribution City</text>
+        <text x="20" y="20" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Full Year Contribution City</text>
         <g transform="translate(200, 50)">
           ${blocks.map((block) => {
             const bw = 4;
