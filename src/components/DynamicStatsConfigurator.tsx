@@ -9,6 +9,7 @@ interface StatToggle {
   icon: string;
   query: string;
   url: string;
+  isNative?: boolean;
 }
 
 export const DynamicStatsConfigurator: React.FC = () => {
@@ -29,11 +30,11 @@ export const DynamicStatsConfigurator: React.FC = () => {
   });
 
   const availableStats: StatToggle[] = [
-    { id: 'followers', label: 'Followers', icon: 'users', query: '$.followers', url: `https://api.github.com/users/${username}` },
+    { id: 'followers', label: 'Followers', icon: 'users', query: '', url: `https://img.shields.io/github/followers/${username}`, isNative: true },
     { id: 'following', label: 'Following', icon: 'user-plus', query: '$.following', url: `https://api.github.com/users/${username}` },
     { id: 'repos', label: 'Public Repos', icon: 'book', query: '$.public_repos', url: `https://api.github.com/users/${username}` },
     { id: 'gists', label: 'Public Gists', icon: 'code', query: '$.public_gists', url: `https://api.github.com/users/${username}` },
-    { id: 'stars', label: 'Total Stars', icon: 'star', query: '$.stars', url: `https://api.github-star-counter.workers.dev/user/${username}` },
+    { id: 'stars', label: 'Total Stars', icon: 'star', query: '', url: `https://img.shields.io/github/stars/${username}`, isNative: true },
   ];
 
   const generateMarkdown = () => {
@@ -45,14 +46,20 @@ export const DynamicStatsConfigurator: React.FC = () => {
     const cleanLogoColor = logoColor.replace('#', '');
 
     if (layout === 'neon-cluster') {
-      return activeStats.map(s => 
-        `<a href="https://github.com/${username}"><img src="https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}" alt="${s.label}" /></a>`
-      ).join(' ');
+      return activeStats.map(s => {
+        const badgeUrl = s.isNative 
+          ? `${s.url}?label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`
+          : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`;
+        return `<a href="https://github.com/${username}"><img src="${badgeUrl}" alt="${s.label}" /></a>`;
+      }).join(' ');
     } else {
       // Data Matrix (Markdown Table)
       let table = `| Metric | Count |\n| :--- | :--- |\n`;
       activeStats.forEach(s => {
-        table += `| **${s.label}** | <img src="https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=%20&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}" alt="${s.label}" /> |\n`;
+        const badgeUrl = s.isNative 
+          ? `${s.url}?label=%20&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`
+          : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=%20&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`;
+        table += `| **${s.label}** | <img src="${badgeUrl}" alt="${s.label}" /> |\n`;
       });
       return table;
     }
@@ -193,8 +200,39 @@ export const DynamicStatsConfigurator: React.FC = () => {
              <div 
                 className="markdown-body w-full flex justify-center"
                 style={{ backgroundColor: 'transparent', color: '#ffffff' }}
-                dangerouslySetInnerHTML={{ __html: generateMarkdown() }}
-             />
+             >
+               {layout === 'neon-cluster' ? (
+                 <div dangerouslySetInnerHTML={{ __html: generateMarkdown() }} />
+               ) : (
+                 <table className="border-collapse border-spacing-0 w-full max-w-sm text-sm">
+                   <thead>
+                     <tr>
+                       <th className="border-b border-zinc-300 dark:border-zinc-700 p-3 text-left font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest text-[10px]">Metric</th>
+                       <th className="border-b border-zinc-300 dark:border-zinc-700 p-3 text-left font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest text-[10px]">Count</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {availableStats.filter(s => selectedStats[s.id]).map(s => {
+                       const cleanLabelColor = labelColor.replace('#', '');
+                       const cleanValueColor = valueColor.replace('#', '');
+                       const cleanLogoColor = logoColor.replace('#', '');
+                       const badgeUrl = s.isNative 
+                         ? `${s.url}?label=%20&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`
+                         : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=%20&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`;
+                       
+                       return (
+                         <tr key={s.id}>
+                           <td className="border-b border-zinc-300 dark:border-zinc-800 p-3 font-bold text-zinc-800 dark:text-zinc-200">{s.label}</td>
+                           <td className="border-b border-zinc-300 dark:border-zinc-800 p-3">
+                             <img src={badgeUrl} alt={s.label} />
+                           </td>
+                         </tr>
+                       );
+                     })}
+                   </tbody>
+                 </table>
+               )}
+             </div>
           </div>
           
           <div className="mt-6 w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 p-4 overflow-auto">
