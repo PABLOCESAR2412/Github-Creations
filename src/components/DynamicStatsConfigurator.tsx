@@ -20,6 +20,8 @@ export const DynamicStatsConfigurator: React.FC = () => {
   const [labelColor, setLabelColor] = useState('#1e293b'); // background of the text
   const [valueColor, setValueColor] = useState('#0ea5e9'); // background of the value
   const [logoColor, setLogoColor] = useState('#ffffff');
+  const [badgeDirection, setBadgeDirection] = useState<'row' | 'column'>('row');
+  const [badgeSpacing, setBadgeSpacing] = useState<'compact' | 'spaced'>('compact');
   
   const [selectedStats, setSelectedStats] = useState<Record<string, boolean>>({
     followers: true,
@@ -46,12 +48,16 @@ export const DynamicStatsConfigurator: React.FC = () => {
     const cleanLogoColor = logoColor.replace('#', '');
 
     if (layout === 'neon-cluster') {
+      const separator = badgeDirection === 'row' 
+        ? (badgeSpacing === 'spaced' ? ' &nbsp;&nbsp; ' : ' ') 
+        : (badgeSpacing === 'spaced' ? '<br/><br/>\n' : '<br/>\n');
+        
       return activeStats.map(s => {
         const badgeUrl = s.isNative 
           ? `${s.url}?label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`
           : `https://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(s.url)}&query=${encodeURIComponent(s.query)}&label=${encodeURIComponent(s.label)}&style=${badgeStyle}&color=${cleanValueColor}&labelColor=${cleanLabelColor}&logo=${s.icon}&logoColor=${cleanLogoColor}`;
         return `<a href="https://github.com/${username}"><img src="${badgeUrl}" alt="${s.label}" /></a>`;
-      }).join(' ');
+      }).join(separator);
     } else {
       // Data Matrix (Markdown Table)
       let table = `| Metric | Count |\n| :--- | :--- |\n`;
@@ -113,6 +119,30 @@ export const DynamicStatsConfigurator: React.FC = () => {
                 DATA MATRIX
               </button>
             </div>
+
+            {layout === 'neon-cluster' && (
+              <>
+                <h3 className="text-sm font-bold text-black dark:text-white mb-3 mt-5 uppercase tracking-widest">[ DIRECTION & SPACING ]</h3>
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <select 
+                    value={badgeDirection} 
+                    onChange={(e) => setBadgeDirection(e.target.value as 'row' | 'column')}
+                    className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white px-3 py-2 text-xs font-bold focus:border-black dark:focus:border-white outline-none uppercase"
+                  >
+                    <option value="row">ROW (LINEAL)</option>
+                    <option value="column">COLUMN (APILADO)</option>
+                  </select>
+                  <select 
+                    value={badgeSpacing} 
+                    onChange={(e) => setBadgeSpacing(e.target.value as 'compact' | 'spaced')}
+                    className="w-full bg-[#f5f4ef] dark:bg-black border border-zinc-300 dark:border-zinc-700 text-black dark:text-white px-3 py-2 text-xs font-bold focus:border-black dark:focus:border-white outline-none uppercase"
+                  >
+                    <option value="compact">COMPACTO</option>
+                    <option value="spaced">ESPACIADO</option>
+                  </select>
+                </div>
+              </>
+            )}
 
             <h3 className="text-sm font-bold text-black dark:text-white mb-3 mt-5 uppercase tracking-widest">[ BADGE_STYLE ]</h3>
             <select 
