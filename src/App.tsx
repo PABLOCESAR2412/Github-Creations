@@ -4,6 +4,7 @@ import { GitHubAdmin } from './pages/GitHubAdmin';
 import { Code2, Zap, FolderGit2, ShieldAlert } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEditorStore } from './store/editorStore';
+import { useEffect } from 'react';
 
 const Navigation = () => {
   const location = useLocation();
@@ -63,6 +64,16 @@ const Navigation = () => {
 };
 
 export function App() {
+  const { theme } = useEditorStore();
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   return (
     <Router>
       <div className="min-h-screen bg-[#f5f4ef] dark:bg-black text-black dark:text-white flex flex-col font-mono selection:bg-[#00ffff] selection:text-black overflow-x-hidden">
