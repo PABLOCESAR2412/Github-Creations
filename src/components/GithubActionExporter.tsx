@@ -107,6 +107,15 @@ updateStats();
             </p>
           </div>
 
+          <div className="bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700/50 p-4 text-xs text-yellow-800 dark:text-yellow-200">
+            <strong>⚠️ {language === 'es' ? 'NOTA IMPORTANTE SOBRE EL DISEÑO:' : 'IMPORTANT DESIGN NOTE:'}</strong>
+            <p className="mt-2 leading-relaxed">
+              {language === 'es' 
+                ? 'Las GitHub Actions son independientes y usan plugins de terceros (ej. lowlighter/metrics). NO puedes usar nuestros diseños SVG aquí (como Cyberpunk o Neon-Glow). Si quieres diseños espectaculares, usa el CUSTOM SVG BUILDER con Vercel. Usa esta opción solo si prefieres estadísticas de texto plano básicas.' 
+                : 'GitHub Actions use 3rd-party plugins (e.g. lowlighter/metrics). You CANNOT use our custom SVG designs here (like Cyberpunk or Neon-Glow). If you want stunning designs, use the CUSTOM SVG BUILDER with Vercel. Use this option only if you prefer basic plain-text stats.'}
+            </p>
+          </div>
+
           <div className="bg-white dark:bg-zinc-950 p-5 border border-zinc-300 dark:border-zinc-800 space-y-4">
             <h3 className="text-sm font-bold text-black dark:text-white mb-2 uppercase tracking-widest">&gt; {language === 'es' ? 'INSTRUCCIONES' : 'INSTRUCTIONS'}</h3>
             <ol className="list-decimal pl-5 text-sm text-zinc-600 dark:text-zinc-400 space-y-3 uppercase leading-relaxed">

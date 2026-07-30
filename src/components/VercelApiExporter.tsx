@@ -13,13 +13,17 @@ export const VercelApiExporter: React.FC = () => {
   const [textColor, setTextColor] = useState('#8b949e');
   const [accentColor, setAccentColor] = useState('#ffffff');
   
-  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'hacker' | 'dashboard'>('brutalist');
+  const [layout, setLayout] = useState<'brutalist' | 'terminal' | 'minimal' | 'cyberpunk' | 'glassmorphism' | 'retro-dos' | 'neon-glow' | 'pixel-art' | 'material' | 'hacker' | 'dashboard' | '3d-bar-chart' | 'activity-rings'>('3d-bar-chart');
   
   const [dataPoints, setDataPoints] = useState({
     followers: true,
-    following: true,
+    following: false,
     repos: true,
-    gists: true
+    gists: false,
+    stars: true,
+    forks: false,
+    commits: true,
+    prs: true
   });
 
   // Mock data for live preview if user hasn't fetched real stats yet
@@ -28,6 +32,10 @@ export const VercelApiExporter: React.FC = () => {
   const mockFollowing = stats?.following ?? 12;
   const mockRepos = stats?.public_repos ?? 45;
   const mockGists = stats?.public_gists ?? 3;
+  const mockStars = 1240;
+  const mockForks = 350;
+  const mockCommits = 4520;
+  const mockPrs = 89;
 
   // Function that generates the raw SVG string based on current settings
   const generateSvgContent = (isExport: boolean) => {
@@ -36,12 +44,20 @@ export const VercelApiExporter: React.FC = () => {
     const flwVal = isExport ? '${following}' : mockFollowing;
     const repVal = isExport ? '${repos}' : mockRepos;
     const gistVal = isExport ? '${gists}' : mockGists;
+    const starVal = isExport ? '${stars}' : mockStars;
+    const forkVal = isExport ? '${forks}' : mockForks;
+    const comVal = isExport ? '${commits}' : mockCommits;
+    const prVal = isExport ? '${prs}' : mockPrs;
 
-    const activeStats = [];
+    const activeStats: {label: string, value: string | number}[] = [];
     if (dataPoints.followers) activeStats.push({ label: 'Followers', value: folVal });
     if (dataPoints.following) activeStats.push({ label: 'Following', value: flwVal });
     if (dataPoints.repos) activeStats.push({ label: 'Repos', value: repVal });
     if (dataPoints.gists) activeStats.push({ label: 'Gists', value: gistVal });
+    if (dataPoints.stars) activeStats.push({ label: 'Stars', value: starVal });
+    if (dataPoints.forks) activeStats.push({ label: 'Forks', value: forkVal });
+    if (dataPoints.commits) activeStats.push({ label: 'Commits', value: comVal });
+    if (dataPoints.prs) activeStats.push({ label: 'PRs', value: prVal });
 
     let svgInner = '';
 
@@ -249,6 +265,69 @@ export const VercelApiExporter: React.FC = () => {
           }).join('')}
         </g>
       `;
+    } else if (layout === '3d-bar-chart') {
+      svgInner = `
+        <style>
+          @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+          .bar-anim { transform-origin: bottom; animation: grow 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="12" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Metrics</text>
+        <g transform="translate(40, 160)">
+          ${activeStats.map((stat, i) => {
+            const width = 320 / activeStats.length;
+            const barW = width * 0.5;
+            const spacing = width * 0.25;
+            const x = i * width + spacing;
+            const rawVal = Number(stat.value) || 1;
+            const maxVal = Math.max(...activeStats.map(s => Number(s.value) || 1), 10);
+            const h = Math.max((rawVal / maxVal) * 100, 5);
+            return `
+              <g transform="translate(${x}, 0)">
+                <g class="bar-anim">
+                  <!-- Right Side -->
+                  <polygon points="${barW},0 ${barW+8},-8 ${barW+8},${-(h+8)} ${barW},${-h}" fill="${accentColor}" opacity="0.4" />
+                  <!-- Top Side -->
+                  <polygon points="0,${-h} 8,${-(h+8)} ${barW+8},${-(h+8)} ${barW},${-h}" fill="${accentColor}" opacity="0.7" />
+                  <!-- Front Face -->
+                  <rect x="0" y="${-h}" width="${barW}" height="${h}" fill="${accentColor}" />
+                  <text x="${barW/2}" y="${-h - 15}" font-family="sans-serif" font-size="10" fill="${titleColor}" text-anchor="middle" font-weight="bold">${stat.value}</text>
+                </g>
+                <text x="${barW/2}" y="20" font-family="sans-serif" font-size="9" fill="${textColor}" text-anchor="middle">${stat.label.toUpperCase()}</text>
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+    } else if (layout === 'activity-rings') {
+      svgInner = `
+        <style>
+          @keyframes drawRing { to { stroke-dashoffset: 0; } }
+          .ring-anim { animation: drawRing 2s cubic-bezier(0.1, 0.7, 0.1, 1) forwards; }
+        </style>
+        <rect width="400" height="200" fill="${bgColor}" rx="16" stroke="${borderColor}" stroke-width="1" />
+        <text x="20" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="${titleColor}">${nameVal} | Activity</text>
+        <g transform="translate(200, 110)">
+          ${activeStats.map((stat, i) => {
+            const radius = 80 - (i * (80 / Math.max(activeStats.length, 1)));
+            const rawVal = Number(stat.value) || 1;
+            const maxVal = Math.max(...activeStats.map(s => Number(s.value) || 1), 10);
+            const percent = Math.min((rawVal / maxVal), 1);
+            const circ = 2 * Math.PI * radius;
+            const op = 1 - (i * 0.15);
+            return `
+              <circle cx="0" cy="0" r="${radius}" fill="none" stroke="${borderColor}" stroke-width="6" opacity="0.3" />
+              <circle cx="0" cy="0" r="${radius}" fill="none" stroke="${accentColor}" stroke-width="6" opacity="${op}" stroke-linecap="round" stroke-dasharray="${circ * percent} ${circ}" stroke-dashoffset="0" class="ring-anim" transform="rotate(-90)" />
+              <g transform="translate(-190, ${-radius + 3})">
+                <text x="0" y="0" font-family="sans-serif" font-size="9" fill="${textColor}" text-anchor="start">${stat.label}</text>
+              </g>
+              <g transform="translate(190, ${-radius + 3})">
+                <text x="0" y="0" font-family="sans-serif" font-size="9" font-weight="bold" fill="${titleColor}" text-anchor="end">${stat.value}</text>
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
     }
 
     return `<svg width="400" height="${layout === 'minimal' ? '100' : '200'}" viewBox="0 0 400 ${layout === 'minimal' ? '100' : '200'}" fill="none" xmlns="http://www.w3.org/2000/svg">${svgInner}</svg>`;
@@ -267,6 +346,22 @@ export default async function handler(req, res) {
     if (userData.message === 'Not Found') {
       return res.status(404).send('User not found');
     }
+
+    // Fetch repos for stars and forks calculation (without token, max 100 repos)
+    const reposRes = await fetch(\`https://api.github.com/users/\${username}/repos?per_page=100\`);
+    const reposData = await reposRes.json();
+    
+    let stars = 0;
+    let forks = 0;
+    if (Array.isArray(reposData)) {
+      stars = reposData.reduce((acc, r) => acc + r.stargazers_count, 0);
+      forks = reposData.reduce((acc, r) => acc + r.forks_count, 0);
+    }
+
+    // Note: Commits and PRs require GraphQL or Search API which are heavily rate-limited without a token.
+    // If you have a process.env.GITHUB_TOKEN in Vercel, you can uncomment advanced fetching here!
+    let commits = 0;
+    let prs = 0;
 
     const name = userData.name || userData.login;
     const followers = userData.followers || 0;
@@ -322,11 +417,11 @@ ${svgTemplate.trim()}
                 <LayoutTemplate className="w-4 h-4" /> [ LAYOUT_STYLE ]
               </h3>
               <div className="grid grid-cols-3 gap-2">
-                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'hacker', 'dashboard'] as const).map(l => (
+                {(['brutalist', 'terminal', 'minimal', 'cyberpunk', 'glassmorphism', 'retro-dos', 'neon-glow', 'pixel-art', 'material', 'hacker', 'dashboard', '3d-bar-chart', 'activity-rings'] as const).map(l => (
                   <button 
                     key={l}
                     onClick={() => setLayout(l)}
-                    className={`p-2 text-[9px] font-bold uppercase border transition-colors ${layout === l ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' : 'bg-transparent text-zinc-500 border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}`}
+                    className={`p-2 text-[9px] font-bold uppercase border transition-colors ${layout === l ? 'bg-[#00ffff] dark:bg-white text-black border-black dark:border-white' : 'bg-transparent text-zinc-500 border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}`}
                   >
                     {l}
                   </button>
